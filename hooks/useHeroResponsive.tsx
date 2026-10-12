@@ -7,7 +7,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { heroSceneConfig } from "@/config/site";
+import { heroSceneConfig, heroStageHeight } from "@/config/site";
 
 /** A resolved per-viewport hero frame — ONE object consumed by every hero
  *  component, so all values stay in sync by construction. */
@@ -36,8 +36,7 @@ export interface HeroFrame {
     cloudDrift: number;
     cloudDriftSecondary: number;
     zoomTo: number;
-    rotateY: number;
-    tilt: number;
+    exitBottleScale: number;
   };
 }
 
@@ -48,7 +47,7 @@ function resolveFrame(isMobile: boolean, isReduced: boolean): HeroFrame {
   return {
     isMobile,
     isReduced,
-    stageHeight: isReduced ? "100svh" : v.stageHeight,
+    stageHeight: isReduced ? "100svh" : heroStageHeight(isMobile),
     perspective: v.perspective,
     copyOffset: v.copy.offset,
     copyMaxWidth: v.copy.maxWidth,

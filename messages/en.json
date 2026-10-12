@@ -1,10 +1,62 @@
 {
+  "Meta": {
+    "title": "3WEEQ — A world where civilizations are told in scent",
+    "description": "An immersive journey through the perfumes of Egypt, Babylon, Greece, and China — one bottle, four civilizations."
+  },
   "Hero": {
-    "headline": "What Remains of Every Civilization"
+    "headline": "What Remains of Every Civilization",
+    "cta": "Begin the Journey"
   },
   "BrandStory": {
     "headline": "The Beginning. Where the Perfume Was Born",
     "body": "In ancient Egypt, perfume was not a luxury.\nIt was an offering to the gods, a memory for kings, and one of the secrets of immortality.\nFrom the blue lotus, myrrh, and frankincense,\nthe Egyptians drew the first scent ever told.\nAnd now, it rests in your hands.",
+    "cta": "Begin the Journey"
+  },
+  "BabylonStory": {
+    "headline": "Where the First Rose Bloomed",
+    "body": "After humanity learned to preserve scent,\nBabylon came to teach them how to beautify it.\nIn the Hanging Gardens, where the sky meets the earth,\nthe first rose was plucked at dawn,\nand the golden threads of saffron were dried under the Babylonian sun.\nHere, perfume was not a luxury… it was art.",
+    "cta": "Discover the Art"
+  },
+  "GreeceStory": {
+    "headline": "Where Perfume Became Wisdom",
+    "body": "From Babylon to Greece,\nscent turned into philosophy.\nIn the white temples beneath the Aegean sky,\nflowers were consecrated as gifts to the gods,\nand the Greeks composed the first fragrance that told a story.\nHere, perfume was not perfume… it was an idea.",
+    "cta": "Continue the Tale"
+  },
+  "ChinaStory": {
+    "headline": "Where Perfume Touched the Sky",
+    "body": "And the scent crossed the Silk Road,\ncarrying the secrets of the East.\nIn the houses of tea and incense,\nrose mingled with musk and oud,\nand China preserved the purest breaths the world had known.\nHere, the journey was complete… and kept forever.",
+    "cta": "Claim the Essence"
+  },
+  "CollectionSection": {
+    "eyebrow": "The Collection",
+    "title": "The Aweeq Collection",
+    "subtitle": "Four worlds… four perfumes. Drag to explore."
+  },
+  "HandsFinale": {
+    "line": "When the past met the present... 3WEEQ was born"
+  },
+  "Nav": {
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "openCart": "Open cart",
+    "siteMenu": "Site menu",
+    "primary": "Primary",
+    "toEnglish": "Switch to English",
+    "toArabic": "Switch to Arabic",
+    "tagline": "A world where civilizations are told in scent"
+  },
+  "Menu": {
+    "item1": "The Beginning",
+    "item2": "The First Rose",
+    "item3": "The Wisdom",
+    "item4": "The Silk Road"
+  },
+  "Cart": {
+    "title": "Cart",
+    "close": "Close cart",
+    "empty": "Your cart is empty",
+    "emptyDesc": "You haven't added anything yet. Begin your journey through the world of 3WEEQ.",
     "cta": "Begin the Journey"
   }
 }
