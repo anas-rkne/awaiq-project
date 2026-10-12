@@ -1,9 +1,10 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { Link, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { siteConfig } from "@/config/site";
 
 interface NavbarProps {
   menuOpen: boolean;
@@ -15,7 +16,8 @@ interface NavbarProps {
 /**
  * Top navigation bar: logo (start) — locale + cart + menu (end).
  * Purely presentational — all state lives in `SiteHeader`.
- * The layout never mirrors: `html` stays LTR and positions are explicit.
+ * `dir` flips on the bar itself so the whole strip mirrors under Arabic;
+ * `html` stays LTR (see layout) and positions use logical properties.
  */
 export function Navbar({
   menuOpen,
@@ -24,13 +26,19 @@ export function Navbar({
   onCartOpen,
 }: NavbarProps) {
   const locale = useLocale();
+  const t = useTranslations("Nav");
   const pathname = usePathname();
   const otherLocale = routing.locales.find((l) => l !== locale) ?? locale;
+  const localeLabel = otherLocale === "ar" ? "عربي" : "EN";
+  const localeLabelIsArabic = otherLocale === "ar";
 
   return (
-    <div className="flex h-16 items-center justify-between px-5 pt-[env(safe-area-inset-top)] sm:px-8 md:h-20 md:px-12">
+    <div
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      className="flex h-16 items-center justify-between px-5 pt-[env(safe-area-inset-top)] sm:px-8 md:h-20 md:px-12"
+    >
       {/* Logo — top start */}
-      <Link href="/" aria-label="3WEEQ home" className="flex items-center">
+      <Link href="/" aria-label={siteConfig.name} className="flex items-center">
         <Image
           src="/art/hero/logo-11.png"
           alt="3WEEQ"
@@ -46,10 +54,12 @@ export function Navbar({
         <Link
           href={pathname}
           locale={otherLocale}
-          className="text-[11px] font-medium tracking-[0.18em] text-beige/85 uppercase transition-colors hover:text-beige md:text-xs"
-          aria-label={`Switch to ${otherLocale === "ar" ? "Arabic" : "English"}`}
+          className={`text-[11px] font-medium text-beige/85 transition-colors hover:text-beige md:text-xs ${
+            localeLabelIsArabic ? "" : "tracking-[0.18em] uppercase"
+          }`}
+          aria-label={t(otherLocale === "ar" ? "toArabic" : "toEnglish")}
         >
-          {otherLocale === "ar" ? "عربي" : "EN"}
+          {localeLabel}
         </Link>
 
         <span aria-hidden="true" className="h-4 w-px bg-beige/20" />
@@ -58,7 +68,7 @@ export function Navbar({
         <button
           type="button"
           onClick={onCartOpen}
-          aria-label="Open cart"
+          aria-label={t("openCart")}
           className="relative flex items-center text-beige/85 transition-colors hover:text-beige"
         >
           <svg
@@ -82,7 +92,7 @@ export function Navbar({
           </svg>
           <span
             aria-hidden="true"
-            className="absolute -right-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[9px] font-bold leading-none text-navy"
+            className="absolute -end-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-none bg-gold px-1 text-[9px] font-medium leading-none text-navy"
           >
             {cartCount}
           </span>
@@ -96,11 +106,11 @@ export function Navbar({
           onClick={onMenuToggle}
           aria-expanded={menuOpen}
           aria-controls="site-menu"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
           className="group flex items-center gap-3 text-beige/85 transition-colors hover:text-beige"
         >
           <span className="text-[11px] font-medium tracking-[0.18em] md:text-xs">
-            Menu
+            {t("menu")}
           </span>
           <span className="relative block h-3 w-6" aria-hidden="true">
             <span

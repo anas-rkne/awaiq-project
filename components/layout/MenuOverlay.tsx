@@ -1,8 +1,11 @@
 "use client";
 
-import { menuLinks, siteConfig } from "@/config/site";
+import { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { menuLinks } from "@/config/site";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 interface MenuOverlayProps {
   open: boolean;
@@ -11,26 +14,36 @@ interface MenuOverlayProps {
 
 /** Fullscreen menu overlay with staggered editorial links. */
 export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
+  const locale = useLocale();
+  const tNav = useTranslations("Nav");
+  const tMenu = useTranslations("Menu");
+  const isAr = locale === "ar";
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEscapeKey(open, onClose);
   useBodyScrollLock(open);
+  useFocusTrap(open, containerRef);
 
   return (
     <div
       id="site-menu"
+      ref={containerRef}
       role="dialog"
       aria-modal="true"
-      aria-label="Site menu"
-      className={`fixed inset-0 z-40 bg-[#000000] transition-opacity duration-500 ${
+      aria-label={tNav("siteMenu")}
+      tabIndex={-1}
+      dir={isAr ? "rtl" : "ltr"}
+      className={`fixed inset-0 z-40 bg-navy-ink outline-none transition-opacity duration-500 ${
         open ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
       <nav
-        aria-label="Primary"
+        aria-label={tNav("primary")}
         className="flex h-full flex-col justify-center gap-1 px-8 pt-16 md:px-16"
       >
         {menuLinks.map((link, index) => (
           <a
-            key={link.label}
+            key={link.key}
             href={link.href}
             onClick={onClose}
             tabIndex={open ? 0 : -1}
@@ -42,19 +55,25 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
             <span className="text-[10px] tracking-[0.3em] text-beige/35">
               {link.index}
             </span>
-            <span className="text-4xl font-black uppercase leading-[1.05] tracking-tight text-beige/85 transition-all duration-300 group-hover:translate-x-2 group-hover:text-beige md:text-6xl">
-              {link.label}
+            <span
+              className={`font-primary text-4xl font-medium leading-[1.05] text-beige/85 transition-all duration-300 group-hover:text-beige md:text-6xl ${
+                isAr
+                  ? "group-hover:-translate-x-2"
+                  : "uppercase tracking-tight group-hover:translate-x-2"
+              }`}
+            >
+              {tMenu(link.key)}
             </span>
           </a>
         ))}
       </nav>
 
       <p
-        className={`absolute bottom-8 left-8 text-[10px] uppercase tracking-[0.28em] text-beige/40 transition-all delay-500 duration-500 md:left-16 ${
-          open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-        }`}
+        className={`absolute bottom-8 start-8 text-[10px] tracking-[0.28em] text-beige/40 transition-all delay-500 duration-500 md:start-16 ${
+          isAr ? "" : "uppercase"
+        } ${open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
       >
-        {siteConfig.tagline}
+        {tNav("tagline")}
       </p>
     </div>
   );

@@ -1,7 +1,10 @@
 "use client";
 
+import { useRef } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 interface CartDrawerProps {
   open: boolean;
@@ -10,41 +13,54 @@ interface CartDrawerProps {
 
 /** Slide-over cart panel. Empty state for now — line items plug in here later. */
 export function CartDrawer({ open, onClose }: CartDrawerProps) {
+  const locale = useLocale();
+  const t = useTranslations("Cart");
+  const isAr = locale === "ar";
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEscapeKey(open, onClose);
   useBodyScrollLock(open);
+  useFocusTrap(open, containerRef);
 
   return (
     <div
+      ref={containerRef}
       role="dialog"
       aria-modal="true"
-      aria-label="السلة — cart"
-      className={open ? undefined : "pointer-events-none"}
+      aria-label={t("title")}
+      tabIndex={-1}
+      dir={isAr ? "rtl" : "ltr"}
+      className={`outline-none ${open ? "" : "pointer-events-none"}`}
     >
       {/* Backdrop */}
       <button
         type="button"
-        aria-label="Close cart"
+        aria-label={t("close")}
         onClick={onClose}
-        tabIndex={open ? 0 : -1}
-        className={`fixed inset-0 z-40 cursor-default bg-black/60 transition-opacity duration-400 ${
+        tabIndex={-1}
+        className={`fixed inset-0 z-40 cursor-default bg-navy-ink/70 transition-opacity duration-500 ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />
 
-      {/* Panel */}
+      {/* Panel — slides in from the inline-end edge (right in LTR, left in RTL). */}
       <aside
-        className={`fixed right-0 top-0 z-50 flex h-full w-[min(420px,92vw)] flex-col border-l border-beige/10 bg-[#000000] transition-transform duration-500 ease-out ${
-          open ? "translate-x-0" : "translate-x-full"
+        className={`fixed end-0 top-0 z-50 flex h-full w-[min(420px,92vw)] flex-col border-s border-beige/10 bg-navy-ink transition-transform duration-500 ease-out ${
+          open
+            ? "translate-x-0"
+            : isAr
+              ? "-translate-x-full"
+              : "translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between px-6 pt-6 md:px-8">
-          <p lang="ar" className="text-xs tracking-[0.25em] text-beige/85">
-            السلة
+          <p className={`text-xs text-beige/85 ${isAr ? "" : "tracking-[0.25em]"}`}>
+            {t("title")}
           </p>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close cart"
+            aria-label={t("close")}
             className="flex h-8 w-8 items-center justify-center text-beige/70 transition-colors hover:text-beige"
           >
             <svg
@@ -84,20 +100,18 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
               strokeWidth="1.2"
             />
           </svg>
-          <p lang="ar" className="text-sm tracking-[0.1em] text-beige/70">
-            سلتك فارغة
-          </p>
+          <p className="text-sm text-beige/70">{t("empty")}</p>
           <p className="max-w-[240px] text-[11px] leading-relaxed text-beige/45">
-            Your cart is empty. Start exploring the world of 3WEEQ.
+            {t("emptyDesc")}
           </p>
           <a
-            href="#explore"
+            href="#brand-story"
             onClick={onClose}
             className="mt-2 inline-flex h-[32px] items-center gap-1.5 border border-beige/35 px-3.5 text-[10px] tracking-[0.08em] text-beige/90 transition-colors hover:border-beige hover:text-beige"
           >
-            Explore 3WEEQ
+            {t("cta")}
             <span aria-hidden="true" className="text-[12px] leading-none">
-              →
+              {isAr ? "←" : "→"}
             </span>
           </a>
         </div>
