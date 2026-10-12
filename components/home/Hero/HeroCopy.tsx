@@ -59,6 +59,12 @@ export function HeroCopy({ copyRef }: HeroCopyProps) {
       >
         {t("headline")}
       </h1>
+      <a
+        href="#bottle"
+        className="pointer-events-auto mt-8 inline-flex items-center justify-center rounded-none border-0 bg-gold px-8 py-3 text-sm font-medium text-navy transition-colors hover:bg-gold/85"
+      >
+        {t("cta")}
+      </a>
     </div>
   );
 }

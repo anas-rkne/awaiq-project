@@ -1,8 +1,6 @@
 "use client";
 
-import Image from "next/image";
 import type { RefObject } from "react";
-import { heroSceneConfig } from "@/config/site";
 import { HeroClouds, type HeroCloudsHandle } from "./HeroClouds";
 
 interface HeroBackdropProps {
@@ -17,32 +15,18 @@ interface HeroBackdropProps {
 }
 
 /**
- * The shared hero backdrop: sky image + procedural FBM clouds, the exact
- * same composition the hero edits (same image, same filter, same shader) so
- * the brand-story section is consistent by construction, not by re-draw.
+ * The shared hero backdrop: the navy base + procedural FBM clouds. The
+ * `sky.webp` image was removed site-wide — the sky is generated (clouds).
+ * The mist is reserved for section→section transitions only.
  */
-export function HeroBackdrop({
-  skyRef,
-  cloudsRef,
-  isMobile,
-}: HeroBackdropProps) {
+export function HeroBackdrop({ skyRef, cloudsRef, isMobile }: HeroBackdropProps) {
   return (
     <div className="absolute inset-0" aria-hidden="true">
       <div
         ref={skyRef}
         className="absolute inset-0 will-change-transform"
         aria-hidden="true"
-      >
-        <Image
-          src={heroSceneConfig.images.sky}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-          style={{ filter: "saturate(0.8) contrast(1.1) sepia(0.2)" }}
-        />
-      </div>
+      />
       <HeroClouds ref={cloudsRef} isMobile={isMobile} />
     </div>
   );

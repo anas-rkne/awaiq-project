@@ -49,7 +49,7 @@ export function EgyptStatic() {
       >
         <Image
           src={heroSceneConfig.images.pixlr}
-          alt="3WEEQ bottle"
+          alt=""
           width={1152}
           height={2048}
           className="h-auto w-full"
@@ -66,7 +66,7 @@ export function EgyptStatic() {
         className="pointer-events-none absolute inset-x-0 z-30 flex flex-col items-center gap-5 px-6 text-center md:px-12"
         style={{ top: frame.copyOffset }}
       >
-        <h2 className="max-w-3xl text-4xl font-semibold leading-tight md:text-6xl">
+        <h2 className="max-w-3xl font-primary text-4xl font-medium leading-tight md:text-5xl">
           {t("headline")}
         </h2>
         <div className="h-px w-16 bg-gold/60" aria-hidden="true" />
@@ -78,7 +78,7 @@ export function EgyptStatic() {
         </p>
         <a
           href="#bottle"
-          className="pointer-events-auto mt-1 inline-flex items-center justify-center rounded-full bg-gold px-8 py-3 text-sm font-medium text-navy transition-colors hover:bg-gold/85"
+          className="pointer-events-auto mt-1 inline-flex items-center justify-center rounded-none border-0 bg-gold px-8 py-3 text-sm font-medium text-navy transition-colors hover:bg-gold/85"
         >
           {t("cta")}
         </a>
