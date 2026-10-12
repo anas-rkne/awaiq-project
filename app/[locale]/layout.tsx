@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { fontPreloads } from "../fonts";
 import { routing, type AppLocale } from "@/i18n/routing";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { GlobalSkyLayer } from "@/components/home/Sky/GlobalSkyLayer";
 import "../globals.css";
 
 type LocaleLayoutProps = {
@@ -16,11 +17,19 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  title: "3WEEQ — Enter a world where creatures come alive",
-  description:
-    "An immersive world of curious creatures, magical places, and stories waiting to be discovered.",
-};
+export async function generateMetadata({
+  params,
+}: Omit<LocaleLayoutProps, "children">): Promise<Metadata> {
+  const { locale } = await params;
+  if (!routing.locales.includes(locale as AppLocale)) {
+    notFound();
+  }
+  const t = await getTranslations({ locale, namespace: "Meta" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 /**
  * Mobile-native viewport (mobile-native skill):
@@ -82,7 +91,10 @@ export default async function LocaleLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <SmoothScroll>{children}</SmoothScroll>
+          <SmoothScroll>
+            <GlobalSkyLayer />
+            {children}
+          </SmoothScroll>
         </NextIntlClientProvider>
       </body>
     </html>

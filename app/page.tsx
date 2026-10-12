@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/home/Hero/HeroSection";
+import { HandsSection } from "@/components/home/Hands/HandsSection";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
 /**
@@ -19,6 +20,7 @@ export default function Home() {
     <>
       <SiteHeader />
       <HeroSection />
+      <HandsSection />
     </>
   );
 }

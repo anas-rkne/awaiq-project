@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
+  --background: #1a3350;
   --foreground: #f6e6d6;
 }
 
@@ -93,20 +93,13 @@
   --color-gold: #cd9e61;
   --color-beige: #f6e6d6;
   --color-navy: #2f4e78;
-  --color-sky-blue: #3b96da;
-  --color-olive: #4b5320;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #f6e6d6;
-  }
+  --color-navy-deep: #27466b;
+  --color-navy-ink: #1a3350;
 }
 
 html,
 body {
-  background: #000000;
+  background: var(--background);
   overflow-x: clip;
 }
 

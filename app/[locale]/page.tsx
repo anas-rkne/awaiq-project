@@ -1,5 +1,8 @@
 import { setRequestLocale } from "next-intl/server";
 import { HeroSection } from "@/components/home/Hero/HeroSection";
+import { HandsSection } from "@/components/home/Hands/HandsSection";
+import { CollectionSection } from "@/components/home/Collection/CollectionSection";
+import { RippleSection } from "@/components/home/Ripple/RippleSection";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
 type HomePageProps = {
@@ -18,6 +21,9 @@ export default async function HomePage({ params }: HomePageProps) {
     <>
       <SiteHeader />
       <HeroSection />
+      <HandsSection />
+      <CollectionSection />
+      <RippleSection />
     </>
   );
 }
