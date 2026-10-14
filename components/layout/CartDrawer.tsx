@@ -2,9 +2,12 @@
 
 import { useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useCart } from "@/components/store/cart/CartProvider";
+import { CartItems } from "@/components/store/CartItems";
 
 interface CartDrawerProps {
   open: boolean;
@@ -17,6 +20,8 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const t = useTranslations("Cart");
   const isAr = locale === "ar";
   const containerRef = useRef<HTMLDivElement>(null);
+  const { lines } = useCart();
+  const hasItems = lines.length > 0;
 
   useEscapeKey(open, onClose);
   useBodyScrollLock(open);
@@ -79,42 +84,47 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
           </button>
         </div>
 
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-          <svg
-            width="28"
-            height="32"
-            viewBox="0 0 17 19"
-            fill="none"
-            aria-hidden="true"
-            className="text-beige/30"
-          >
-            <path
-              d="M3 6.5h11l-.8 11H3.8L3 6.5Z"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M5.5 6.5V5a3 3 0 0 1 6 0v1.5"
-              stroke="currentColor"
-              strokeWidth="1.2"
-            />
-          </svg>
-          <p className="text-sm text-beige/70">{t("empty")}</p>
-          <p className="max-w-[240px] text-[11px] leading-relaxed text-beige/45">
-            {t("emptyDesc")}
-          </p>
-          <a
-            href="#brand-story"
-            onClick={onClose}
-            className="mt-2 inline-flex h-[32px] items-center gap-1.5 border border-beige/35 px-3.5 text-[10px] tracking-[0.08em] text-beige/90 transition-colors hover:border-beige hover:text-beige"
-          >
-            {t("cta")}
-            <span aria-hidden="true" className="text-[12px] leading-none">
-              {isAr ? "←" : "→"}
-            </span>
-          </a>
-        </div>
+        {hasItems ? (
+          <CartItems onClose={onClose} />
+        ) : (
+          <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
+            <svg
+              width="28"
+              height="32"
+              viewBox="0 0 17 19"
+              fill="none"
+              aria-hidden="true"
+              className="text-beige/30"
+            >
+              <path
+                d="M3 6.5h11l-.8 11H3.8L3 6.5Z"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5.5 6.5V5a3 3 0 0 1 6 0v1.5"
+                stroke="currentColor"
+                strokeWidth="1.2"
+              />
+            </svg>
+            <p className="text-sm text-beige/70">{t("empty")}</p>
+            <p className="max-w-[240px] text-[11px] leading-relaxed text-beige/45">
+              {t("emptyDesc")}
+            </p>
+            <Link
+              href="/store"
+              onClick={onClose}
+              tabIndex={open ? 0 : -1}
+              className="mt-2 inline-flex h-9 items-center gap-1.5 border border-beige/35 px-4 text-[11px] tracking-[0.08em] text-beige/90 transition-colors hover:border-beige hover:text-beige"
+            >
+              {t("cta")}
+              <span aria-hidden="true" className="text-sm leading-none">
+                {isAr ? "←" : "→"}
+              </span>
+            </Link>
+          </div>
+        )}
       </aside>
     </div>
   );

@@ -3,9 +3,13 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { fontPreloads } from "../fonts";
+import { siteConfig } from "@/config/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { getSiteUrl } from "@/lib/site-url";
 import { routing, type AppLocale } from "@/i18n/routing";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { GlobalSkyLayer } from "@/components/home/Sky/GlobalSkyLayer";
+import { CartProvider } from "@/components/store/cart/CartProvider";
 import "../globals.css";
 
 type LocaleLayoutProps = {
@@ -26,6 +30,7 @@ export async function generateMetadata({
   }
   const t = await getTranslations({ locale, namespace: "Meta" });
   return {
+    metadataBase: new URL(getSiteUrl()),
     title: t("title"),
     description: t("description"),
   };
@@ -66,6 +71,14 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
   const messages = await getMessages();
 
+  const orgLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    url: getSiteUrl(),
+    description: siteConfig.description,
+  };
+
   return (
     <html lang={locale} dir="ltr" className="h-full antialiased">
       <head>
@@ -88,13 +101,16 @@ export default async function LocaleLayout({
             crossOrigin="anonymous"
           />
         ))}
+        <JsonLd data={orgLd} />
       </head>
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <SmoothScroll>
-            <GlobalSkyLayer />
-            {children}
-          </SmoothScroll>
+          <CartProvider>
+            <SmoothScroll>
+              <GlobalSkyLayer />
+              {children}
+            </SmoothScroll>
+          </CartProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -91,8 +91,11 @@ export function Navbar({
             />
           </svg>
           <span
+            key={cartCount}
             aria-hidden="true"
-            className="absolute -end-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-none bg-gold px-1 text-[9px] font-medium leading-none text-navy"
+            className={`absolute -end-2 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-none bg-gold px-1 text-[9px] font-medium leading-none text-navy ${
+              cartCount > 0 ? "animate-cart-badge" : "hidden"
+            }`}
           >
             {cartCount}
           </span>

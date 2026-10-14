@@ -1,6 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { RefObject } from "react";
 import { siteConfig } from "@/config/site";
 import { useHeroResponsive } from "@/hooks/useHeroResponsive";
@@ -59,12 +60,12 @@ export function HeroCopy({ copyRef }: HeroCopyProps) {
       >
         {t("headline")}
       </h1>
-      <a
-        href="#bottle"
+      <Link
+        href="/store"
         className="pointer-events-auto mt-8 inline-flex items-center justify-center rounded-none border-0 bg-gold px-8 py-3 text-sm font-medium text-navy transition-colors hover:bg-gold/85"
       >
         {t("cta")}
-      </a>
+      </Link>
     </div>
   );
 }

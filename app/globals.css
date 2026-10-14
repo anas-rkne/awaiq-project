@@ -89,12 +89,25 @@
 @theme inline {
   --font-primary: "Reem Kufi", "Segoe UI", Tahoma, Arial, sans-serif;
   --font-secondary: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+  /* The reference (`momentolegal.com`) drives its About/expertise chapter with
+     the Latin display face "Forum". Our brand display face is Reem Kufi, so the
+     `font-forum` utility is mapped to it — the ported markup keeps its class
+     names while the type stays on-brand (and covers Arabic, which Forum cannot). */
+  --font-forum: "Reem Kufi", "Segoe UI", Tahoma, Arial, sans-serif;
 
   --color-gold: #cd9e61;
   --color-beige: #f6e6d6;
   --color-navy: #2f4e78;
   --color-navy-deep: #27466b;
   --color-navy-ink: #1a3350;
+
+  /* Heading scale — one relationship across every section:
+     display (hero-like section title) > h2 (section title) > h3 (card/stage).
+     Keeps the Craft title as the dominant display while every other heading
+     derives from the same ladder. */
+  --fs-display: clamp(2.6rem, 6vw, 5rem);
+  --fs-h2: clamp(2rem, 3.5vw, 3rem);
+  --fs-h3: clamp(1.75rem, 3.4vw, 2.75rem);
 }
 
 html,
@@ -141,6 +154,41 @@ body {
   animation: hero-float 6s ease-in-out infinite;
 }
 
+/* Store — cart badge pop (re-triggered by a `key` on the count) and cart line
+   enter. Both are neutralised by the reduced-motion block below. */
+@keyframes cart-badge-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.6;
+  }
+  60% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-cart-badge {
+  animation: cart-badge-pop 320ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes cart-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-cart-line {
+  animation: cart-line-in 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -154,6 +202,26 @@ body {
 :focus-visible {
   outline: 1px solid rgba(246, 230, 214, 0.7);
   outline-offset: 3px;
+}
+
+/* Collection cards become keyboard-reachable groups (tabIndex/role set in
+   CollectionSection.tsx). A gold ring keeps the focus cue on-brand and
+   clearly readable over the dark card art. */
+[data-card]:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
+/* ==========================================================================
+   Craft — stage photograph colour grade (craft-1/2/3.jpg).
+   A light CSS veil only; the source images are never altered or resized.
+   On hover the veil lifts a touch so the photo "wakes up" under the cursor.
+   The hover transform is gated to real pointers so touch devices never get a
+   stuck :hover state, and the shared reduced-motion block above neutralises
+   the transition automatically.
+   ========================================================================== */
+.craft-image {
+  filter: sepia(0.2) saturate(0.9) contrast(1.1) brightness(0.95);
 }
 
 /* ==========================================================================

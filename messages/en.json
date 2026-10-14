@@ -3,6 +3,40 @@
     "title": "3WEEQ — A world where civilizations are told in scent",
     "description": "An immersive journey through the perfumes of Egypt, Babylon, Greece, and China — one bottle, four civilizations."
   },
+  "About": {
+    "title": "About Aweeq",
+    "paragraphOne": "We consider perfume not through the note alone, but together with its sensory, cultural and commercial dimensions — bringing the depth of story and the craft of the perfumer onto the same ground.",
+    "paragraphTwo": "Distinction often emerges where craft meets timing. We build our work on three principles: mastery, discipline, and trust.",
+    "ctaLabel": "About Us",
+    "watermark": "PERFUMES",
+    "insightsHeading": "Insights",
+    "insightsSubheading": "Readings on craft and story",
+    "insightsCta": "Discover the Collection",
+    "perfumes": {
+      "egypt": {
+        "name": "Egypt",
+        "summary": "Dawn light on the banks of the Nile, kept in a bottle."
+      },
+      "babylon": {
+        "name": "Babylon",
+        "summary": "The first rose plucked in the Hanging Gardens."
+      },
+      "greece": {
+        "name": "Greece",
+        "summary": "Where scent became an idea told aloud."
+      },
+      "china": {
+        "name": "China",
+        "summary": "The secrets of the East, sealed by the Silk Road."
+      }
+    },
+    "insightsItems": {
+      "egypt": { "title": "From Lotus to Bottle" },
+      "babylon": { "title": "The Art of Babylonian Beauty" },
+      "greece": { "title": "The Wisdom of Greek Perfume" },
+      "china": { "title": "Across the Silk Road" }
+    }
+  },
   "Hero": {
     "headline": "What Remains of Every Civilization",
     "cta": "Begin the Journey"
@@ -30,10 +64,51 @@
   "CollectionSection": {
     "eyebrow": "The Collection",
     "title": "The Aweeq Collection",
-    "subtitle": "Four worlds… four perfumes. Drag to explore."
+    "subtitle": "Four civilizations, in a single bottle",
+    "cta": "Discover the Collection",
+    "view": "View details",
+    "products": {
+      "egypt": { "name": "Egypt", "tag": "Where the scent was born" },
+      "babylon": { "name": "Babylon", "tag": "Where the first rose opened" },
+      "greece": { "name": "Greece", "tag": "Where scent became wisdom" },
+      "china": { "name": "China", "tag": "Where scent touched the sky" }
+    }
+  },
+  "CraftSection": {
+    "title": "The Craft",
+    "lead": "By the hands of perfumers with over 30 years of craft.",
+    "cta": "Discover the Collection",
+    "closing": "Every batch carries its own number. Yours.",
+    "stages": {
+      "extraction": {
+        "title": "Extraction",
+        "subtitle": "Extraction",
+        "description": "We pick the ingredients at dawn, the moment their scent peaks. Blue lotus, myrrh, frankincense — all gathered by hand."
+      },
+      "distillation": {
+        "title": "Distillation",
+        "subtitle": "Distillation",
+        "description": "48 hours of slow distillation in copper pipes. We don't rush. A good perfume needs time."
+      },
+      "sealing": {
+        "title": "Sealing",
+        "subtitle": "Sealing",
+        "description": "The bottle is sealed in wax, numbered by hand, and signed by the perfumer."
+      }
+    },
+    "stats": {
+      "hours": "hours of distillation",
+      "purification": "stages of purification",
+      "natural": "natural ingredients",
+      "experience": "years of experience"
+    }
   },
   "HandsFinale": {
     "line": "When the past met the present... 3WEEQ was born"
+  },
+  "Ripple": {
+    "line": "A world rendered in scent",
+    "cta": "Explore the collection"
   },
   "Nav": {
     "menu": "Menu",
@@ -46,11 +121,33 @@
     "toArabic": "Switch to Arabic",
     "tagline": "A world where civilizations are told in scent"
   },
+  "Footer": {
+    "tagline": "A world where civilizations are told in scent.",
+    "copyright": "Copyright © 2026 3WEEQ. All rights reserved.",
+    "backToTop": "Back to top",
+    "links": {
+      "home": "Home",
+      "brand": "The Beginning",
+      "babylon": "The First Rose",
+      "greece": "The Wisdom",
+      "china": "The Silk Road",
+      "store": "The Store"
+    },
+    "emailLabel": "E-mail address",
+    "emailValue": "hello@3weeq.com",
+    "phoneLabel": "Phone number",
+    "phoneValue": "+966 55 000 0000",
+    "addressLabel": "Address",
+    "addressValue": "Riyadh, Saudi Arabia",
+    "instagram": "Instagram",
+    "linkedin": "LinkedIn"
+  },
   "Menu": {
     "item1": "The Beginning",
     "item2": "The First Rose",
     "item3": "The Wisdom",
-    "item4": "The Silk Road"
+    "item4": "The Silk Road",
+    "item5": "The Store"
   },
   "Cart": {
     "title": "Cart",
@@ -58,5 +155,101 @@
     "empty": "Your cart is empty",
     "emptyDesc": "You haven't added anything yet. Begin your journey through the world of 3WEEQ.",
     "cta": "Begin the Journey"
+  },
+  "Store": {
+    "eyebrow": "The Store",
+    "title": "The 3WEEQ Collection",
+    "subtitle": "Four civilizations, in one bottle",
+    "from": "From",
+    "currency": "SAR",
+    "ml": "ml",
+    "view": "View details",
+    "details": "Details",
+    "backToStore": "Back to the store",
+    "story": "The Story",
+    "notes": "The Notes",
+    "notesTop": "Top",
+    "notesHeart": "Heart",
+    "notesBase": "Base",
+    "size": "Size",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "addToCart": "Add to cart",
+    "added": "Added to cart",
+    "soldOut": "Sold out",
+    "shippingNote": "Free delivery on orders over {amount}",
+    "notFound": "Product not found",
+    "notFoundDesc": "The link you followed no longer exists.",
+    "relatedTitle": "Complete the set",
+    "products": {
+      "egypt": {
+        "name": "Egypt",
+        "tag": "Where the perfume was born",
+        "story": "From blue lotus, myrrh and frankincense, the Egyptians drew the first scent ever told. A fragrance like dawn light on the banks of the Nile — clear, warm and eternal.",
+        "notesTop": "Blue lotus · Bergamot",
+        "notesHeart": "Myrrh · Frankincense",
+        "notesBase": "Sandalwood · Musk"
+      },
+      "babylon": {
+        "name": "Babylon",
+        "tag": "Where the first rose bloomed",
+        "story": "In the Hanging Gardens, the first rose was plucked at dawn, and the golden threads of saffron dried under the Babylonian sun. A perfume for art and beauty.",
+        "notesTop": "Damask rose · Saffron",
+        "notesHeart": "Oud · Jasmine",
+        "notesBase": "Amber · Vanilla"
+      },
+      "greece": {
+        "name": "Greece",
+        "tag": "Where perfume became wisdom",
+        "story": "In the white temples beneath the Aegean sky, flowers were consecrated as gifts to the gods, and the Greeks composed the first fragrance that told a story. A perfume like an idea.",
+        "notesTop": "Bergamot · Neroli",
+        "notesHeart": "Rose · Iris",
+        "notesBase": "Cedarwood · Frankincense"
+      },
+      "china": {
+        "name": "China",
+        "tag": "Where perfume touched the sky",
+        "story": "The scent crossed the Silk Road carrying the secrets of the East, and rose mingled with musk and oud. A perfume that touches the sky and is kept forever.",
+        "notesTop": "White tea · Bergamot",
+        "notesHeart": "Rose · Musk",
+        "notesBase": "Oud · Sandalwood"
+      }
+    },
+    "cart": {
+      "title": "Cart",
+      "itemsLabel": "item(s) in cart",
+      "subtotal": "Subtotal",
+      "shipping": "Delivery",
+      "shippingFree": "Free",
+      "total": "Total",
+      "checkout": "Checkout",
+      "continueShopping": "Continue shopping",
+      "remove": "Remove",
+      "emptyCta": "Browse the collection"
+    },
+    "checkout": {
+      "eyebrow": "Checkout",
+      "title": "Order details",
+      "summary": "Order summary",
+      "name": "Full name",
+      "phone": "Phone number",
+      "city": "City",
+      "address": "Address",
+      "notes": "Notes (optional)",
+      "submit": "Place order",
+      "required": "This field is required",
+      "invalidPhone": "Enter a valid phone number",
+      "successTitle": "Your order was received",
+      "successBody": "We'll be in touch shortly to confirm the order and arrange payment and delivery.",
+      "copyOrder": "Copy order",
+      "copied": "Copied",
+      "whatsapp": "Send via WhatsApp",
+      "placeAnother": "Continue shopping",
+      "emptyTitle": "Your cart is empty",
+      "emptyDesc": "You haven't added anything yet. Browse the collection, then come back to check out.",
+      "note": "No payment is taken on the site. We'll confirm your order and arrange payment and delivery.",
+      "orderRef": "Order ref"
+    }
   }
 }

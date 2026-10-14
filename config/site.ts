@@ -22,6 +22,22 @@ export const menuLinks: MenuLink[] = [
   { index: "02", key: "item2", href: "#babylon-story" },
   { index: "03", key: "item3", href: "#greece-story" },
   { index: "04", key: "item4", href: "#china-story" },
+  { index: "05", key: "item5", href: "/store" },
+];
+
+/** Footer column links — `key` indexes the `Footer.links` messages. */
+export interface FooterLink {
+  key: string;
+  href: string;
+}
+
+export const footerLinks: FooterLink[] = [
+  { key: "home", href: "/" },
+  { key: "brand", href: "#brand-story" },
+  { key: "babylon", href: "#babylon-story" },
+  { key: "greece", href: "#greece-story" },
+  { key: "china", href: "#china-story" },
+  { key: "store", href: "/store" },
 ];
 
 /**
@@ -536,27 +552,74 @@ export const storyEmblemConfig = {
 } as const;
 
 /**
- * Collection — the "unwoven" product strip (ported from the MIT-licensed
- * unwoven demo by Clément Grellier). Each card is a stack of horizontal
- * ribbons that sit flush mid-screen and unravel toward the edges. The section
- * is transparent so the page-wide cloud sky (GlobalSkyLayer) shows through —
- * one continuous identity with the previous sections.
+ * Collection — the product collection.
+ *
+ * A cinematic, draggable strip of the four perfumes over a dark hero-matched
+ * backdrop. Each card is a product portrait with a 3D tilt on hover; the cards
+ * rise in staggered, shrink + dim with distance from the centre, and drift on
+ * scroll. (The signature "unwoven" ribbon treatment is layered on top of this
+ * interaction layer in a later phase — its settings live below.)
  */
 export const collectionConfig = {
   sectionId: "collection",
-  /** The product shots, cover-fitted to the cards. */
+  /** The four perfumes, in strip order. `key` indexes the CollectionSection
+   *  messages (`products.<key>`); `image` is the product shot, shown as-is. */
+  products: [
+    { key: "egypt", image: "/products/1.jpg" },
+    { key: "babylon", image: "/products/2.jpg" },
+    { key: "greece", image: "/products/3.jpg" },
+    { key: "china", image: "/products/4.jpg" },
+  ],
+  /** Card geometry — a horizontal, draggable strip of four portraits.
+   *  Sizes are the desktop box; the component scales down for tablet/phone. */
+  card: {
+    /** Desktop card box (the base; smaller breakpoints in the component). Wide
+     *  enough that the side cards bleed past the viewport edge (~40% cut),
+     *  giving the "infinite gallery" read around the single centred card. */
+    width: "clamp(320px, 44vw, 760px)",
+    height: "clamp(540px, 84vh, 960px)",
+    radius: 24,
+    /** Gaps between cards: tight on desktop, roomy on phones. */
+    gapVw: 2,
+    gapVwMobile: 4,
+    /** Which product opens centred (0 = Egypt … 3 = China). */
+    focusIndex: 1,
+    /** The distance ladder: centre → side → far, by card-pitch distance. */
+    scaleCenter: 1,
+    scaleSide: 0.85,
+    scaleFar: 0.7,
+    brightCenter: 1,
+    brightSide: 0.6,
+    brightFar: 0.3,
+    /** 3D tilt ceiling (deg) at a card's edge, and the pointer perspective. */
+    tiltMax: 6,
+    perspective: 800,
+  },
+  /** Entrance: cards rise into place, staggered, once the section is in view. */
+  entrance: { y: 100, duration: 1.2, stagger: 0.15, ease: "power3.out" },
+  /** Vertical parallax of the side cards as the section scrolls past. */
+  parallax: { sideY: 40, scrub: 1.5 },
+  /** Autoplay drift, px per second (drag adds inertia on top). */
+  scrollSpeed: 35,
+  /** Speed cap after a drag, px per second. */
+  flingMax: 2600,
+
+  /** ── Unwoven ribbon treatment (layered on top in a later phase) ────────── */
+  /** Cover-fitted product shots for the ribbon strip. */
   images: [
     "/products/1.jpg",
     "/products/2.jpg",
     "/products/3.jpg",
     "/products/4.jpg",
   ],
-  /** Ribbons per card. */
-  threads: 26,
+  /** Ribbons per card. FEW and THICK — they read as silk threads. Many thin
+   *  ribbons read as broken scan-lines (the old "glitch" impression). */
+  threads: 7,
+  /** Fewer ribbons on phones — keeps the loop cheap and the silk readable. */
+  threadsMobile: 5,
   /** Horizontal subdivisions per ribbon (what the flutter rides on). */
   segments: 20,
-  /** Card height in px — TALLER than the source's 452, clamped to the
-   *  viewport below. */
+  /** Card height in px — TALLER than the source's 452, clamped below. */
   cardMaxHeight: 700,
   /** Card width / height. */
   cardAspect: 0.75,
@@ -564,16 +627,28 @@ export const collectionConfig = {
   cardGapRatio: 0.11,
   /** Corner radius in px. */
   cardRadius: 20,
-  /** Autoplay drift, px per second. */
-  scrollSpeed: 95,
-  /** Speed cap after a drag, px per second. */
-  flingMax: 4200,
-  /** How far in from an edge the unravelling starts, as a fraction of width. */
-  tearZoneRatio: 0.26,
+  /** How far in from an edge the unravelling starts, as a fraction of width.
+   *  Small: the tear stays at the very edges, the centre stays solid. */
+  tearZoneRatio: 0.1,
   /** Px cap for the tear zone. */
-  tearZoneMax: 380,
+  tearZoneMax: 220,
   /** The card height is clamped to this fraction of the viewport height. */
   viewportClamp: 0.78,
+  /** How long the ribbons take to unravel in, and the easing. */
+  reveal: { duration: 2.6, ease: "power3.out" },
+  /** Gold hairline that catches a tearing ribbon's edge (brand accent). */
+  edgeGold: { rgb: "#cd9e61", alpha: 0.32 },
+  /** Cinematic backdrop behind the strip — the hero's navy identity, not a
+   *  flat cloud field. A dark gradient, a slow mist bank and a vignette. */
+  backdrop: {
+    top: "#1a3350",
+    bottom: "#2f4e78",
+    /** Opacity of the shared hero mist layer over the dark base. */
+    mistOpacity: 0.15,
+    /** Edge darkening so the eye settles on the centre. */
+    vignette:
+      "radial-gradient(ellipse at center, transparent 40%, rgba(10,15,25,0.6) 100%)",
+  },
 } as const;
 
 /**
@@ -602,6 +677,9 @@ export const rippleConfig = {
   /** How fast the ripple eases toward its target, per second. */
   ease: 4,
 } as const;
+
+
+
 
 
 

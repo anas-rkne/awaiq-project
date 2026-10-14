@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { heroSceneConfig, greeceConfig } from "@/config/site";
 import { useHeroResponsive } from "@/hooks/useHeroResponsive";
 
@@ -76,12 +77,12 @@ export function GreeceStatic() {
         >
           {t("body")}
         </p>
-        <a
-          href="#bottle"
+        <Link
+          href="/store"
           className="pointer-events-auto mt-1 inline-flex items-center justify-center rounded-none border-0 bg-gold px-8 py-3 text-sm font-medium text-navy transition-colors hover:bg-gold/85"
         >
           {t("cta")}
-        </a>
+        </Link>
       </div>
     </section>
   );

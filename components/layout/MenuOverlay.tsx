@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { menuLinks } from "@/config/site";
+import { Link } from "@/i18n/navigation";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
@@ -41,31 +42,54 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
         aria-label={tNav("primary")}
         className="flex h-full flex-col justify-center gap-1 px-8 pt-16 md:px-16"
       >
-        {menuLinks.map((link, index) => (
-          <a
-            key={link.key}
-            href={link.href}
-            onClick={onClose}
-            tabIndex={open ? 0 : -1}
-            style={{ transitionDelay: open ? `${140 + index * 70}ms` : "0ms" }}
-            className={`group flex items-baseline gap-4 transition-all duration-500 md:gap-6 ${
-              open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-            }`}
-          >
-            <span className="text-[10px] tracking-[0.3em] text-beige/35">
-              {link.index}
-            </span>
-            <span
-              className={`font-primary text-4xl font-medium leading-[1.05] text-beige/85 transition-all duration-300 group-hover:text-beige md:text-6xl ${
-                isAr
-                  ? "group-hover:-translate-x-2"
-                  : "uppercase tracking-tight group-hover:translate-x-2"
-              }`}
+        {menuLinks.map((link, index) => {
+          const isRoute = link.href.startsWith("/");
+          const className = `group flex items-baseline gap-4 transition-all duration-500 md:gap-6 ${
+            open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+          }`;
+          const style = {
+            transitionDelay: open ? `${140 + index * 70}ms` : "0ms",
+          };
+          const inner = (
+            <>
+              <span className="text-[10px] tracking-[0.3em] text-beige/35">
+                {link.index}
+              </span>
+              <span
+                className={`font-primary text-4xl font-medium leading-[1.05] text-beige/85 transition-all duration-300 group-hover:text-beige md:text-6xl ${
+                  isAr
+                    ? "group-hover:-translate-x-2"
+                    : "uppercase tracking-tight group-hover:translate-x-2"
+                }`}
+              >
+                {tMenu(link.key)}
+              </span>
+            </>
+          );
+          return isRoute ? (
+            <Link
+              key={link.key}
+              href={link.href}
+              onClick={onClose}
+              tabIndex={open ? 0 : -1}
+              style={style}
+              className={className}
             >
-              {tMenu(link.key)}
-            </span>
-          </a>
-        ))}
+              {inner}
+            </Link>
+          ) : (
+            <a
+              key={link.key}
+              href={link.href}
+              onClick={onClose}
+              tabIndex={open ? 0 : -1}
+              style={style}
+              className={className}
+            >
+              {inner}
+            </a>
+          );
+        })}
       </nav>
 
       <p
