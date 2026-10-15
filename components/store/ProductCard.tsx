@@ -55,7 +55,7 @@ export function ProductCard({
       </div>
 
       <div className="mt-4 flex items-baseline justify-between gap-3 px-1">
-        <span className="text-[11px] tracking-[0.14em] text-beige/50">
+        <span className={`text-[11px] text-beige/50 ${isRtl ? "" : "tracking-[0.14em]"}`}>
           {t("view")}
         </span>
         <span className="text-sm text-beige/85">

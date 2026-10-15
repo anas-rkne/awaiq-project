@@ -35,7 +35,7 @@ export function Navbar({
   return (
     <div
       dir={locale === "ar" ? "rtl" : "ltr"}
-      className="flex h-16 items-center justify-between px-5 pt-[env(safe-area-inset-top)] sm:px-8 md:h-20 md:px-12"
+      className="relative z-30 flex h-16 items-center justify-between px-5 pt-[env(safe-area-inset-top)] sm:px-8 md:h-20 md:px-12"
     >
       {/* Logo — top start */}
       <Link href="/" aria-label={siteConfig.name} className="flex items-center">
@@ -54,7 +54,7 @@ export function Navbar({
         <Link
           href={pathname}
           locale={otherLocale}
-          className={`text-[11px] font-medium text-beige/85 transition-colors hover:text-beige md:text-xs ${
+          className={`inline-flex min-h-11 min-w-11 items-center justify-center px-1 text-[11px] font-medium text-beige/85 transition-colors hover:text-beige md:text-xs ${
             localeLabelIsArabic ? "" : "tracking-[0.18em] uppercase"
           }`}
           aria-label={t(otherLocale === "ar" ? "toArabic" : "toEnglish")}
@@ -69,7 +69,7 @@ export function Navbar({
           type="button"
           onClick={onCartOpen}
           aria-label={t("openCart")}
-          className="relative flex items-center text-beige/85 transition-colors hover:text-beige"
+          className="relative flex min-h-11 min-w-11 items-center justify-center text-beige/85 transition-colors hover:text-beige"
         >
           <svg
             width="17"
@@ -110,7 +110,7 @@ export function Navbar({
           aria-expanded={menuOpen}
           aria-controls="site-menu"
           aria-label={menuOpen ? t("closeMenu") : t("openMenu")}
-          className="group flex items-center gap-3 text-beige/85 transition-colors hover:text-beige"
+          className="group flex min-h-11 items-center gap-3 text-beige/85 transition-colors hover:text-beige"
         >
           <span className="text-[11px] font-medium tracking-[0.18em] md:text-xs">
             {t("menu")}

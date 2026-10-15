@@ -13,7 +13,7 @@ interface HeroCopyProps {
 const ARABIC_HEADLINE = "text-[clamp(2.6rem,9vw,5.05rem)]";
 const ARABIC_MOBILE_HEADLINE = "text-[clamp(2rem,8.5vw,2.85rem)]";
 const LATIN_HEADLINE = "text-[clamp(2.3rem,5vw,3.75rem)]";
-const LATIN_MOBILE_HEADLINE = "text-[clamp(1.3rem,5.5vw,1.85rem)]";
+const LATIN_MOBILE_HEADLINE = "text-[clamp(1.6rem,6.5vw,2.2rem)]";
 
 /**
  * Hero copy block.

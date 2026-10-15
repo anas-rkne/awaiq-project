@@ -74,7 +74,7 @@ export function CartItems({ onClose }: { onClose: () => void }) {
                     type="button"
                     onClick={() => remove(line.productId, line.variantId)}
                     aria-label={t("cart.remove")}
-                    className="text-beige/45 transition-colors hover:text-beige"
+                    className="-me-2 -mt-2 flex h-11 w-11 shrink-0 items-center justify-center text-beige/45 transition-colors hover:text-beige active:text-beige"
                   >
                     <svg
                       width="11"
@@ -132,14 +132,14 @@ export function CartItems({ onClose }: { onClose: () => void }) {
           <Link
             href="/store/checkout"
             onClick={onClose}
-            className="pointer-events-auto border border-gold bg-gold px-8 py-4 text-center text-sm font-medium text-navy-ink transition-colors duration-300 hover:bg-transparent hover:text-gold"
+            className="pointer-events-auto border border-gold bg-gold px-8 py-4 text-center text-sm font-medium text-navy-ink transition-colors duration-300 hover:bg-transparent hover:text-gold active:bg-transparent active:text-gold"
           >
             {t("cart.checkout")}
           </Link>
           <button
             type="button"
             onClick={onClose}
-            className="text-center text-xs text-beige/60 transition-colors hover:text-beige"
+            className="flex min-h-11 items-center justify-center text-center text-xs text-beige/60 transition-colors hover:text-beige active:text-beige"
           >
             {t("cart.continueShopping")}
           </button>

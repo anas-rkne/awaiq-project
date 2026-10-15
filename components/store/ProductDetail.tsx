@@ -44,7 +44,7 @@ export function ProductDetail({ productId }: { productId: string }) {
           <p className="max-w-md text-beige/70">{t("notFoundDesc")}</p>
           <Link
             href="/store"
-            className="border border-gold bg-gold px-8 py-3 text-sm font-medium text-navy-ink transition-colors hover:bg-transparent hover:text-gold"
+            className="border border-gold bg-gold px-8 py-3 text-sm font-medium text-navy-ink transition-colors hover:bg-transparent hover:text-gold active:bg-transparent active:text-gold"
           >
             {t("backToStore")}
           </Link>
@@ -68,7 +68,7 @@ export function ProductDetail({ productId }: { productId: string }) {
       <div dir={isRtl ? "rtl" : "ltr"}>
         <Link
           href="/store"
-          className="inline-flex items-center gap-2 text-[11px] tracking-[0.18em] text-beige/60 transition-colors hover:text-beige"
+          className={`inline-flex min-h-11 items-center gap-2 text-[11px] text-beige/60 transition-colors hover:text-beige active:text-beige ${isRtl ? "" : "tracking-[0.18em]"}`}
         >
           <span aria-hidden="true">{isRtl ? "→" : "←"}</span>
           {t("backToStore")}
@@ -90,7 +90,7 @@ export function ProductDetail({ productId }: { productId: string }) {
           {/* Details */}
           <div className="flex flex-col gap-8 lg:py-4">
             <header className="flex flex-col gap-2">
-              <p className="text-[10px] font-medium tracking-[0.3em] text-gold">
+              <p className={`text-[10px] font-medium text-gold ${isRtl ? "" : "tracking-[0.3em]"}`}>
                 {t("eyebrow")}
               </p>
               <h1 className="font-primary text-[clamp(2.4rem,5vw,3.75rem)] font-medium leading-none text-beige">
@@ -115,7 +115,7 @@ export function ProductDetail({ productId }: { productId: string }) {
 
             {/* Notes */}
             <div className="flex flex-col gap-3 border-y border-beige/10 py-6">
-              <p className="text-[10px] font-medium tracking-[0.3em] text-beige/50">
+              <p className={`text-[10px] font-medium text-beige/50 ${isRtl ? "" : "tracking-[0.3em]"}`}>
                 {t("notes")}
               </p>
               {notes.map(([label, value]) => (
@@ -131,7 +131,7 @@ export function ProductDetail({ productId }: { productId: string }) {
 
             {/* Size */}
             <fieldset className="flex flex-col gap-3">
-              <legend className="text-[10px] font-medium tracking-[0.3em] text-beige/50">
+              <legend className={`text-[10px] font-medium text-beige/50 ${isRtl ? "" : "tracking-[0.3em]"}`}>
                 {t("size")}
               </legend>
               <div className="flex flex-wrap gap-3">
@@ -164,7 +164,7 @@ export function ProductDetail({ productId }: { productId: string }) {
             {/* Quantity + add */}
             <div className="flex flex-wrap items-center gap-5">
               <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-medium tracking-[0.3em] text-beige/50">
+                <span className={`text-[10px] font-medium text-beige/50 ${isRtl ? "" : "tracking-[0.3em]"}`}>
                   {t("quantity")}
                 </span>
                 <QuantityStepper value={qty} onChange={setQty} />

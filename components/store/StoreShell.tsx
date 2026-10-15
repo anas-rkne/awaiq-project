@@ -10,8 +10,7 @@ import { siteConfig } from "@/config/site";
 export function StoreShell({ children }: { children: ReactNode }) {
   return (
     <main className="relative flex min-h-svh flex-col">
-      {/* Dark navy base + a soft gold glow — the brand identity of the store. */
-      }
+      {/* Dark navy base + a soft gold glow — the brand identity of the store. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10"
@@ -37,7 +36,7 @@ export function StoreShell({ children }: { children: ReactNode }) {
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4">
           <Link
             href="/"
-            className="font-primary text-sm tracking-[0.28em] text-beige/70 transition-colors hover:text-beige"
+            className="inline-flex min-h-11 items-center font-primary text-sm tracking-[0.28em] text-beige/70 transition-colors hover:text-beige active:text-beige"
           >
             {siteConfig.name}
           </Link>

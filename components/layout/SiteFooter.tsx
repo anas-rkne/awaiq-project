@@ -11,7 +11,7 @@ const REVEAL =
   "opacity-0 translate-y-3 transition-[opacity,transform] duration-700 ease-out data-[shown=true]:translate-y-0 data-[shown=true]:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none";
 
 const LINK =
-  "text-[18px] leading-[38px] transition-opacity duration-200 hover:opacity-50 md:text-[1.25vw] md:leading-[2.75vw]";
+  "text-[18px] leading-[44px] transition-opacity duration-200 hover:opacity-50 lg:text-[1.25vw] lg:leading-[2.75vw]";
 const LINK_EN = "tracking-[36%] uppercase";
 
 /**
@@ -71,19 +71,19 @@ export function SiteFooter() {
     <footer
       ref={ref}
       dir={isAr ? "rtl" : "ltr"}
-      className="w-full overflow-x-clip overflow-y-clip md:overflow-x-visible md:overflow-y-visible"
+      className="w-full overflow-x-clip overflow-y-clip lg:overflow-x-visible lg:overflow-y-visible"
     >
-      <div className="flex w-full flex-col items-center px-4 md:flex-row md:items-start md:px-[clamp(1.6rem,3.5vw,13rem)]">
+      <div className="flex w-full flex-col items-center px-4 pb-[env(safe-area-inset-bottom)] lg:flex-row lg:items-start lg:px-[clamp(1.6rem,3.5vw,13rem)]">
         <div
           data-reveal
-          className={`mb-20 h-px w-full bg-white/18 md:hidden ${REVEAL}`}
+          className={`mb-20 h-px w-full bg-white/18 lg:hidden ${REVEAL}`}
         />
 
         {/* Left column — links, tagline, copyright */}
-        <div className="relative z-30 flex w-full flex-col gap-12 md:w-1/5 md:-translate-y-[2vw] md:gap-[1vw] md:self-stretch">
+        <div className="relative z-30 flex w-full flex-col gap-12 lg:w-1/5 lg:-translate-y-[2vw] lg:gap-[1vw] lg:self-stretch">
           <div
             data-reveal
-            className={`flex flex-col items-center md:items-start ${REVEAL}`}
+            className={`flex flex-col items-center lg:items-start ${REVEAL}`}
           >
             {footerLinks.map((link) =>
               link.href.startsWith("/") ? (
@@ -105,16 +105,16 @@ export function SiteFooter() {
 
           <div
             data-reveal
-            className={`flex items-center justify-center md:block ${REVEAL}`}
+            className={`flex items-center justify-center lg:block ${REVEAL}`}
           >
-            <p className="w-[85%] text-center text-[12px] leading-[16px] tracking-normal text-white/58 md:w-auto md:text-start md:text-[0.833vw] md:leading-[1.35vw]">
+            <p className="w-[85%] text-center text-[12px] leading-[16px] tracking-normal text-white/58 lg:w-auto lg:text-start lg:text-[0.833vw] lg:leading-[1.35vw]">
               {t("tagline")}
             </p>
           </div>
 
           <div
             data-reveal
-            className={`hidden md:mt-auto md:block md:pt-[0.4vw] ${REVEAL}`}
+            className={`hidden lg:mt-auto lg:block lg:pt-[0.4vw] ${REVEAL}`}
           >
             <p className="text-[0.729vw] leading-[2.083vw] text-white/71">
               {t("copyright")}
@@ -123,21 +123,21 @@ export function SiteFooter() {
         </div>
 
         {/* Center + right */}
-        <div className="flex w-full flex-1 flex-col-reverse md:flex-row md:self-stretch">
+        <div className="flex w-full flex-1 flex-col-reverse lg:flex-row lg:self-stretch">
           {/* Center — back-to-top + product scene band */}
-          <div className="flex flex-1 flex-col items-center justify-end md:overflow-y-clip">
+          <div className="flex flex-1 flex-col items-center justify-end lg:overflow-y-clip">
             <div className="flex w-full flex-col items-center justify-end will-change-transform">
               <button
                 type="button"
                 onClick={backToTop}
-                className="z-[20] mb-[75px] flex min-h-[2.292vw] cursor-pointer flex-col items-center gap-[16px] py-[12px] text-[14px] uppercase tracking-[0.25em] text-white/91 transition-opacity duration-200 hover:opacity-50 md:-mb-[4.3vw] md:gap-[0.7vw] md:py-[0.75vw] md:text-[0.938vw]"
+                className="z-[20] mb-[75px] flex min-h-[2.292vw] cursor-pointer flex-col items-center gap-[16px] py-[12px] text-[14px] uppercase tracking-[0.25em] text-white/91 transition-opacity duration-200 hover:opacity-50 lg:-mb-[4.3vw] lg:gap-[0.7vw] lg:py-[0.75vw] lg:text-[0.938vw]"
               >
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 38 20"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-[3vw] w-[28px] md:w-[1.75vw]"
+                  className="h-[3vw] w-[28px] lg:w-[1.75vw]"
                 >
                   <path
                     fillRule="evenodd"
@@ -150,22 +150,22 @@ export function SiteFooter() {
                 <span>{t("backToTop")}</span>
               </button>
 
-              <div className="relative isolate w-screen origin-bottom scale-[2] transform-gpu md:w-full md:scale-[1.4]">
+              <div className="relative isolate w-screen origin-bottom scale-[2] transform-gpu lg:w-full lg:scale-[1.4]">
                 <Image
                   src="/art/hero/pixlr-bottle.webp"
                   alt=""
                   aria-hidden="true"
                   width={1152}
                   height={2048}
-                  className="relative mx-auto h-[42vh] w-auto object-contain md:h-[52vh]"
+                  className="relative mx-auto h-[42vh] w-auto object-contain lg:h-[52vh]"
                 />
               </div>
             </div>
           </div>
 
           {/* Right column — contact + socials + credit */}
-          <div className="relative z-30 flex w-full flex-col items-center gap-[45px] md:w-1/4 md:-translate-y-[2vw] md:items-start md:gap-[3vw] md:self-stretch">
-            <div className="flex w-full flex-col pt-[45px] md:w-full md:pt-[0.7vw]">
+          <div className="relative z-30 flex w-full flex-col items-center gap-[45px] lg:w-1/4 lg:-translate-y-[2vw] lg:items-start lg:gap-[3vw] lg:self-stretch">
+            <div className="flex w-full flex-col pt-[45px] lg:w-full lg:pt-[0.7vw]">
               {(
                 [
                   ["emailLabel", "emailValue"],
@@ -176,14 +176,14 @@ export function SiteFooter() {
                 <div
                   key={label}
                   data-reveal
-                  className={`flex flex-col gap-[6px] py-[20px] md:gap-[1.1vw] md:py-[1.1vw] md:border-t md:border-white/18 ${
+                  className={`flex flex-col gap-[6px] py-[20px] lg:gap-[1.1vw] lg:py-[1.1vw] lg:border-t lg:border-white/18 ${
                     index === 0 ? "" : "border-t border-white/18"
                   } ${REVEAL}`}
                 >
-                  <p className="text-center text-[10px] text-white/93 md:text-start md:text-[0.833vw]">
+                  <p className="text-center text-[10px] text-white/93 lg:text-start lg:text-[0.833vw]">
                     {t(label)}
                   </p>
-                  <p className="text-center text-[14px] tracking-[5%] text-white/61 md:text-start md:text-[0.938vw]">
+                  <p className="text-center text-[14px] tracking-[5%] text-white/61 lg:text-start lg:text-[0.938vw]">
                     {t(value)}
                   </p>
                 </div>
@@ -193,7 +193,7 @@ export function SiteFooter() {
 
             <div
               data-reveal
-              className={`flex w-[85%] flex-col items-center md:w-full md:items-start ${REVEAL}`}
+              className={`flex w-[85%] flex-col items-center lg:w-full lg:items-start ${REVEAL}`}
             >
               {(
                 [
@@ -206,15 +206,15 @@ export function SiteFooter() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="z-[20] py-[10px] md:block md:w-full md:border-t md:border-white/18 md:py-[0.65vw]"
+                  className="z-[20] py-[10px] lg:block lg:w-full lg:border-t lg:border-white/18 lg:py-[0.65vw]"
                 >
-                  <p className="text-[14px] text-white/61 tracking-[36%] transition-opacity duration-200 hover:opacity-50 md:text-[0.833vw]">
+                  <p className="text-[14px] text-white/61 tracking-[36%] transition-opacity duration-200 hover:opacity-50 lg:text-[0.833vw]">
                     {t(label)}
                   </p>
                 </a>
               ))}
-              <div className="hidden h-px w-full bg-white/18 md:block" />
-              <div className="flex flex-col items-center justify-center gap-[12px] pt-[45px] md:hidden">
+              <div className="hidden h-px w-full bg-white/18 lg:block" />
+              <div className="flex flex-col items-center justify-center gap-[12px] pt-[45px] lg:hidden">
                 <p className="text-center text-[10px] leading-[14px] text-white/71">
                   {t("copyright")}
                 </p>
@@ -223,7 +223,7 @@ export function SiteFooter() {
 
             <div
               data-reveal
-              className={`hidden w-full justify-end md:mt-auto md:flex ${REVEAL}`}
+              className={`hidden w-full justify-end lg:mt-auto lg:flex ${REVEAL}`}
             >
               <Link
                 href="/"

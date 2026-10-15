@@ -87,6 +87,13 @@
 }
 
 @theme inline {
+  /* The whole experience switches from the phone composition to the desktop
+     composition at exactly 1024px (the hero stage + About pin + footer all use
+     that line). Tailwind's default `md` (768px) would let half-scaled desktop
+     layout leak into the 768–1023 tablet band, so `md` is remapped onto the
+     same 64rem line as `lg` — every `md:`/`lg:` utility now flips together. */
+  --breakpoint-md: 64rem;
+
   --font-primary: "Reem Kufi", "Segoe UI", Tahoma, Arial, sans-serif;
   --font-secondary: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
   /* The reference (`momentolegal.com`) drives its About/expertise chapter with
@@ -210,6 +217,29 @@ body {
 [data-card]:focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 4px;
+}
+
+/* About (mobile) — reveal-on-scroll. Elements start hidden and lift in when
+   the IntersectionObserver in `AboutMobile` flags them; the shared
+   reduced-motion block above neutralises the transition automatically, and
+   the explicit rule below guarantees the final state on reduced-motion
+   devices even before the observer runs. */
+[data-about-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+}
+[data-about-reveal][data-about-reveal-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-about-reveal] {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ==========================================================================

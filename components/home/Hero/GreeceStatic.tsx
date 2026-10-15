@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { heroSceneConfig, greeceConfig } from "@/config/site";
 import { useHeroResponsive } from "@/hooks/useHeroResponsive";
+import { PlateImage } from "./PlateImage";
 
 /**
  * Reduced-motion fallback for the Greece half — mirror of `BabylonStatic`. The
@@ -24,13 +25,9 @@ export function GreeceStatic() {
       id={greeceConfig.sectionId}
       className="relative h-[100svh] w-full overflow-hidden bg-navy text-beige"
     >
-      <Image
+      <PlateImage
         src={heroSceneConfig.images.greece}
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover"
-        style={{ filter: greeceConfig.imageFilter }}
+        filter={greeceConfig.imageFilter}
       />
       <div
         className="absolute inset-0"

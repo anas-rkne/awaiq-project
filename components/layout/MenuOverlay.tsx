@@ -34,17 +34,17 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
       aria-label={tNav("siteMenu")}
       tabIndex={-1}
       dir={isAr ? "rtl" : "ltr"}
-      className={`fixed inset-0 z-40 bg-navy-ink outline-none transition-opacity duration-500 ${
+      className={`fixed inset-0 z-20 bg-navy-ink outline-none transition-opacity duration-500 ${
         open ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
       <nav
         aria-label={tNav("primary")}
-        className="flex h-full flex-col justify-center gap-1 px-8 pt-16 md:px-16"
+        className="flex h-full flex-col justify-center gap-1 px-8 pb-[env(safe-area-inset-bottom)] pt-[calc(4rem+env(safe-area-inset-top))] md:px-16"
       >
         {menuLinks.map((link, index) => {
           const isRoute = link.href.startsWith("/");
-          const className = `group flex items-baseline gap-4 transition-all duration-500 md:gap-6 ${
+          const className = `group flex items-baseline gap-4 py-1 transition-all duration-500 md:gap-6 ${
             open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`;
           const style = {
@@ -93,8 +93,8 @@ export function MenuOverlay({ open, onClose }: MenuOverlayProps) {
       </nav>
 
       <p
-        className={`absolute bottom-8 start-8 text-[10px] tracking-[0.28em] text-beige/40 transition-all delay-500 duration-500 md:start-16 ${
-          isAr ? "" : "uppercase"
+        className={`absolute bottom-[calc(2rem+env(safe-area-inset-bottom))] start-8 text-[10px] text-beige/40 transition-all delay-500 duration-500 md:start-16 ${
+          isAr ? "" : "tracking-[0.28em] uppercase"
         } ${open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
       >
         {tNav("tagline")}

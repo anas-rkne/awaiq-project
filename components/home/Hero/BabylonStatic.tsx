@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { heroSceneConfig, babylonConfig } from "@/config/site";
 import { useHeroResponsive } from "@/hooks/useHeroResponsive";
+import { PlateImage } from "./PlateImage";
 
 /**
  * Reduced-motion fallback for the Babylon half — mirror of `EgyptStatic`. The
@@ -24,13 +25,9 @@ export function BabylonStatic() {
       id={babylonConfig.sectionId}
       className="relative h-[100svh] w-full overflow-hidden bg-navy text-beige"
     >
-      <Image
+      <PlateImage
         src={heroSceneConfig.images.babylon}
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover"
-        style={{ filter: babylonConfig.imageFilter }}
+        filter={babylonConfig.imageFilter}
       />
       <div
         className="absolute inset-0"

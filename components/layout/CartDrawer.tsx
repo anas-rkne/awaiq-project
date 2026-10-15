@@ -50,7 +50,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
       {/* Panel — slides in from the inline-end edge (right in LTR, left in RTL). */}
       <aside
-        className={`fixed end-0 top-0 z-50 flex h-full w-[min(420px,92vw)] flex-col border-s border-beige/10 bg-navy-ink transition-transform duration-500 ease-out ${
+        className={`fixed end-0 top-0 z-50 flex h-svh max-h-svh w-[min(420px,92vw)] flex-col border-s border-beige/10 bg-navy-ink pb-[env(safe-area-inset-bottom)] transition-transform duration-500 ease-out ${
           open
             ? "translate-x-0"
             : isAr
@@ -58,7 +58,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
               : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between px-6 pt-6 md:px-8">
+        <div className="flex items-center justify-between px-6 pt-[calc(1.5rem+env(safe-area-inset-top))] md:px-8">
           <p className={`text-xs text-beige/85 ${isAr ? "" : "tracking-[0.25em]"}`}>
             {t("title")}
           </p>
@@ -66,7 +66,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
             type="button"
             onClick={onClose}
             aria-label={t("close")}
-            className="flex h-8 w-8 items-center justify-center text-beige/70 transition-colors hover:text-beige"
+            className="-me-2 flex h-11 w-11 items-center justify-center text-beige/70 transition-colors hover:text-beige"
           >
             <svg
               width="12"
@@ -116,7 +116,9 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
               href="/store"
               onClick={onClose}
               tabIndex={open ? 0 : -1}
-              className="mt-2 inline-flex h-9 items-center gap-1.5 border border-beige/35 px-4 text-[11px] tracking-[0.08em] text-beige/90 transition-colors hover:border-beige hover:text-beige"
+              className={`mt-2 inline-flex h-11 items-center gap-1.5 border border-beige/35 px-4 text-[11px] text-beige/90 transition-colors hover:border-beige hover:text-beige ${
+                isAr ? "" : "tracking-[0.08em]"
+              }`}
             >
               {t("cta")}
               <span aria-hidden="true" className="text-sm leading-none">

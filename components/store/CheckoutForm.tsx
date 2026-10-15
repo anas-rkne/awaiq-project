@@ -202,7 +202,7 @@ export function CheckoutForm() {
                   href={whatsappHref(placed.text)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 rounded-full border border-gold bg-gold px-6 py-3 text-center text-sm font-medium text-navy-ink transition-colors hover:bg-transparent hover:text-gold"
+                  className="flex-1 rounded-full border border-gold bg-gold px-6 py-3 text-center text-sm font-medium text-navy-ink transition-colors hover:bg-transparent hover:text-gold active:bg-transparent active:text-gold"
                 >
                   {t("checkout.whatsapp")}
                 </a>
@@ -212,7 +212,7 @@ export function CheckoutForm() {
           </div>
 
           <div className="mt-8 text-center">
-            <Link href="/store" className="text-sm text-beige/60 transition-colors hover:text-beige">
+            <Link href="/store" className="text-sm text-beige/60 transition-colors hover:text-beige active:text-beige">
               {t("checkout.placeAnother")}
             </Link>
           </div>
@@ -230,7 +230,7 @@ export function CheckoutForm() {
           <p className="max-w-md text-beige/70">{t("checkout.emptyDesc")}</p>
           <Link
             href="/store"
-            className="border border-gold bg-gold px-8 py-3 text-sm font-medium text-navy-ink transition-colors hover:bg-transparent hover:text-gold"
+            className="border border-gold bg-gold px-8 py-3 text-sm font-medium text-navy-ink transition-colors hover:bg-transparent hover:text-gold active:bg-transparent active:text-gold"
           >
             {t("cart.emptyCta")}
           </Link>
@@ -244,7 +244,7 @@ export function CheckoutForm() {
     <StoreShell>
       <div dir={localeDir(isRtl)} className="mx-auto max-w-5xl">
         <header className="mb-10 flex flex-col gap-2">
-          <p className="text-[10px] font-medium tracking-[0.3em] text-gold">{t("checkout.eyebrow")}</p>
+          <p className={`text-[10px] font-medium text-gold ${isRtl ? "" : "tracking-[0.3em]"}`}>{t("checkout.eyebrow")}</p>
           <h1 className="font-primary text-[clamp(2rem,4vw,3rem)] font-medium leading-tight text-beige">
             {t("checkout.title")}
           </h1>
@@ -260,7 +260,7 @@ export function CheckoutForm() {
 
             <button
               type="submit"
-              className="mt-2 border border-gold bg-gold px-8 py-4 text-sm font-medium text-navy-ink transition-colors duration-300 hover:bg-transparent hover:text-gold active:scale-[0.99]"
+              className="mt-2 border border-gold bg-gold px-8 py-4 text-sm font-medium text-navy-ink transition-colors duration-300 hover:bg-transparent hover:text-gold active:bg-transparent active:text-gold active:scale-[0.99]"
             >
               {t("checkout.submit")}
             </button>
@@ -268,7 +268,7 @@ export function CheckoutForm() {
           </form>
 
           <aside className="h-fit rounded-2xl border border-beige/10 bg-navy-ink/40 p-6 lg:sticky lg:top-28">
-            <p className="mb-4 text-[10px] font-medium tracking-[0.3em] text-beige/50">
+            <p className={`mb-4 text-[10px] font-medium text-beige/50 ${isRtl ? "" : "tracking-[0.3em]"}`}>
               {t("checkout.summary")}
             </p>
             <OrderSummary items={totals.items} subtotal={totals.subtotal} shipping={totals.shipping} total={totals.total} isRtl={isRtl} />
@@ -359,9 +359,10 @@ function Field({
   autoComplete?: string;
 }) {
   const id = `field-${label.replace(/\s+/g, "-")}`;
+  const isRtl = useLocale() === "ar";
   return (
     <label htmlFor={id} className="flex flex-col gap-2">
-      <span className="text-xs tracking-[0.08em] text-beige/60">{label}</span>
+      <span className={`text-xs text-beige/60 ${isRtl ? "" : "tracking-[0.08em]"}`}>{label}</span>
       {textarea ? (
         <textarea
           id={id}

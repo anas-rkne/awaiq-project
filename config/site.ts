@@ -87,7 +87,7 @@ export const heroSceneConfig = {
    *  original hero speed). The per-viewport `stageHeight` is DERIVED from this
    *  × the timeline's total duration (see `heroStageHeight`), so extending the
    *  timeline can never desync the scroll length again. */
-  scrollVhPerUnit: { desktop: 420, mobile: 240 },
+  scrollVhPerUnit: { desktop: 420, mobile: 180 },
   images: {
     bottle: "/art/hero/hero-product.webp",
     pixlr: "/art/hero/pixlr-bottle.webp",
@@ -95,6 +95,27 @@ export const heroSceneConfig = {
     babylon: "/art/hero/babel.png",
     greece: "/art/hero/greek.png",
     china: "/art/hero/china.png",
+  },
+  /**
+   * The CIVILIZATION PLATE fit inside the lens. Every plate is a 16:9 artwork
+   * whose monuments span its FULL width, while the phone lens is roughly
+   * 1:2.2 — so the desktop fit (`object-cover`, which fills the lens) blows a
+   * plate up ~3.8x on a phone and centre-crops it down to ~26% of the artwork:
+   * the wings, side towers and colonnades are cut off entirely and what is left
+   * reads as an oversized, mushy backdrop. The phone therefore draws the plate
+   * at a controlled WIDTH instead, bottom-anchored so the painted floor still
+   * reaches the fold (the bottle still lands ON the artwork at ~30% down it,
+   * past the dissolve) and dissolved into the sky at its own cut top edge.
+   * 200vw halves the zoom (3.8x -> 2.0x) and doubles the landmark coverage
+   * (26% -> 50% of the artwork, which is the whole central monument mass).
+   * The plate box keeps the art's own 16:9 ratio, so `object-cover` inside it
+   * crops nothing and the veil's alpha mask stays pixel-aligned.
+   */
+  plate: {
+    /** Phone plate width in vw, bottom-anchored inside the lens. */
+    mobileWidthVw: 200,
+    /** Fade that melts the plate's flat top edge into the sky. */
+    mobileFade: "linear-gradient(to bottom, transparent 0%, #000 12%)",
   },
   /**
    * The ONE generated FBM mist bank. It plays TWO roles:

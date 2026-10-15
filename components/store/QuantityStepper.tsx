@@ -24,8 +24,8 @@ export function QuantityStepper({
   const t = useTranslations("Store");
   const isRtl = useLocale() === "ar";
 
-  const btn = `flex items-center justify-center text-beige/80 transition-colors hover:text-beige disabled:cursor-not-allowed disabled:opacity-30 ${
-    compact ? "h-8 w-8 text-base" : "h-11 w-11 text-lg"
+  const btn = `flex h-11 w-11 items-center justify-center text-beige/80 transition-colors hover:text-beige active:text-beige disabled:cursor-not-allowed disabled:opacity-30 ${
+    compact ? "text-base" : "text-lg"
   }`;
 
   return (

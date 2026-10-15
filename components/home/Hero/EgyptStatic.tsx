@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { heroSceneConfig, egyptConfig } from "@/config/site";
 import { useHeroResponsive } from "@/hooks/useHeroResponsive";
+import { PlateImage } from "./PlateImage";
 
 /**
  * Reduced-motion fallback for the Egypt half: the merged scene is inert (no
@@ -24,13 +25,9 @@ export function EgyptStatic() {
       id={egyptConfig.sectionId}
       className="relative h-[100svh] w-full overflow-hidden bg-navy text-beige"
     >
-      <Image
+      <PlateImage
         src={heroSceneConfig.images.egypt2}
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover"
-        style={{ filter: egyptConfig.imageFilter }}
+        filter={egyptConfig.imageFilter}
       />
       <div
         className="absolute inset-0"

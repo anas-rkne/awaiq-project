@@ -113,6 +113,7 @@ export function GlobalSkyLayer() {
     };
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mobileQuery = window.matchMedia("(max-width: 1023px)");
     const c = heroSceneConfig.clouds;
 
     const draw = (t: number, force = false) => {
@@ -127,8 +128,10 @@ export function GlobalSkyLayer() {
       ctx.uniform1f(loc.opacity, c.opacity);
       ctx.uniform1f(loc.driftA, 0);
       ctx.uniform1f(loc.driftB, 0);
-      ctx.uniform2f(loc.centerA, c.layerA.desktopPos.x, c.layerA.desktopPos.y);
-      ctx.uniform2f(loc.centerB, c.layerB.desktopPos.x, c.layerB.desktopPos.y);
+      const centerA = mobileQuery.matches ? c.layerA.mobilePos : c.layerA.desktopPos;
+      const centerB = mobileQuery.matches ? c.layerB.mobilePos : c.layerB.desktopPos;
+      ctx.uniform2f(loc.centerA, centerA.x, centerA.y);
+      ctx.uniform2f(loc.centerB, centerB.x, centerB.y);
       ctx.drawArrays(ctx.TRIANGLES, 0, 3);
       if (force) runningRef.current = true;
     };
@@ -162,7 +165,10 @@ export function GlobalSkyLayer() {
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, c.maxDpr);
+      const dpr = Math.min(
+        window.devicePixelRatio || 1,
+        mobileQuery.matches ? c.maxDprMobile : c.maxDpr,
+      );
       canvas.width = Math.max(1, Math.round(rect.width * dpr));
       canvas.height = Math.max(1, Math.round(rect.height * dpr));
       gl.viewport(0, 0, canvas.width, canvas.height);

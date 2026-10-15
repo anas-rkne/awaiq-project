@@ -5,6 +5,7 @@ import { useHeroResponsive } from "@/hooks/useHeroResponsive";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroRadar } from "./HeroRadar";
 import { HeroMist } from "./HeroMist";
+import { PlateImage } from "./PlateImage";
 import type { HeroCloudsHandle } from "./HeroClouds";
 import type { HeroMistHandle } from "./HeroMist";
 
@@ -46,37 +47,31 @@ function Plate({ plateRef, src, filter, veil, topFade }: PlateProps) {
   return (
     <div
       ref={plateRef}
-      className="pointer-events-none absolute inset-0"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
       style={{ transform: "translateY(100%)" }}
       aria-hidden="true"
     >
-      <Image
-        src={src}
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover"
-        style={{ filter }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundColor: veil,
-          WebkitMaskImage: `url(${src})`,
-          maskImage: `url(${src})`,
-          WebkitMaskSize: "cover",
-          maskSize: "cover",
-          WebkitMaskPosition: "center",
-          maskPosition: "center",
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-        }}
-      >
+      <PlateImage src={src} filter={filter}>
         <div
-          className="absolute inset-x-0 top-0 h-[45%]"
-          style={{ backgroundImage: topFade }}
-        />
-      </div>
+          className="absolute inset-0"
+          style={{
+            backgroundColor: veil,
+            WebkitMaskImage: `url(${src})`,
+            maskImage: `url(${src})`,
+            WebkitMaskSize: "cover",
+            maskSize: "cover",
+            WebkitMaskPosition: "center",
+            maskPosition: "center",
+            WebkitMaskRepeat: "no-repeat",
+            maskRepeat: "no-repeat",
+          }}
+        >
+          <div
+            className="absolute inset-x-0 top-0 h-[45%]"
+            style={{ backgroundImage: topFade }}
+          />
+        </div>
+      </PlateImage>
     </div>
   );
 }

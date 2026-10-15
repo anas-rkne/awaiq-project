@@ -237,7 +237,13 @@ export function createHandsScene(container: HTMLElement, opts: HandsSceneOptions
   const height = container.clientHeight || window.innerHeight;
   const reducedMotion =
     typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  // Mobile perfume profile: the finale is a full post chain (bloom + feedback +
+  // displacement + a full-size offscreen atmosphere RT), so a 3× phone would
+  // otherwise render at 2× and drop frames. Cap the phone at the same 1.5 the
+  // hero's cloud/mist layers use; desktop keeps its full 2×.
+  const isMobile =
+    typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches;
+  const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
   renderer.setClearColor(0x0e2a4a);
@@ -451,7 +457,9 @@ export function createHandsScene(container: HTMLElement, opts: HandsSceneOptions
 
   const afterimagePass = new AfterimagePass();
   afterimagePass.uniforms.damp.value = 0.9;
-  if (!reducedMotion) composer.addPass(afterimagePass);
+  // The full-screen feedback buffer is the single most expensive pass on
+  // phones — gate it to desktop; the bloom + mist still carry the look.
+  if (!reducedMotion && !isMobile) composer.addPass(afterimagePass);
 
   // Bloom tuned for the brand: threshold lifted onto the metallic highlights
   // so the bright highlights don't white out (the source 0.1 threshold would).

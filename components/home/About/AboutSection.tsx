@@ -29,18 +29,21 @@ const DECOR_CLIP = 65;
  * The About chapter — a faithful port of the reference
  * (`momentolegal.com`) `HomeExpertiseSection`.
  *
- * ONE `100dvh` section pinned for `1830%` of viewport height, driven by a
- * second `scrub:1` trigger spanning `2030%`. That progress (`drive`) runs:
+ * ONE `100dvh` section pinned for thousands of percent of viewport height,
+ * driven by a second `scrub` trigger. That progress (`drive`) runs:
  *   - the copy reveal (blur + opacity) and the `EXPERTISE` watermark,
  *   - a rotating circular conveyor: each item is a pillar (`blockv2`) carrying
  *     a bottle whose product shot lives in a circular window; the pillars ride a
- *     circle (`place`) and cross-fade their name (left) + summary (right) at
+ *     circle (`place`) and cross-fade their name + summary at
  *     `--watch-center-y`,
  *   - the inset insights belt (cards + captions) sliding in near the end,
  *   - a final 10× push-out of the trailing pillars.
  *
- * Numbers and tailwind values are kept identical to the source; only the data
- * (four perfumes), assets (bottle + product circle) and copy differ.
+ * Both breakpoints run the SAME experience. The geometry is measured per
+ * frame, so the phone simply gets its own `base` (fill-width instead of the
+ * landscape `9/16 w` video ratio) and a computed vertical offset that parks the
+ * conveyor band at a comfortable height — the conveyor itself, the motion and
+ * the copy/cross-fade logic are identical to desktop.
  */
 export function AboutSection() {
   const t = useTranslations("About");
@@ -120,43 +123,60 @@ export function AboutSection() {
     const count = perfumes.length;
     const mm = gsap.matchMedia();
 
-    mm.add("(min-width: 768px)", () => {
+    const build = (isMobile: boolean) => {
       // measured geometry (reference names in comments)
-      let stageH = 0; // t
-      let base = 0; //     a = min(h, 9/16 w)
+      let stageH = 0; //   t
+      let base = 0; //     a = min(h, 9/16 w)  ·  mobile: min(h, w)
       let band = 0; //     n = 0.42 a
       let colH = 0; //     s = 2500/768 * n
       let watchTop = 0; // o = 0.18 a
       let step = 0; //     c = 0.391111 a
       let stepFar = 0; //  u = 0.497778 a
       let stepBack = 0; // d = -0.311111 a
+      let vOff = 0; //     mobile only: lift the whole band into view
 
       // Entry timeline (before the pin): the copy re-settles as the chapter
       // approaches — the reference scrolls the title/paragraphs to their final
       // positions over the "top 40% → top -30%" window.
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: section,
-            start: "top 40%",
-            end: "top -30%",
-            scrub: true,
-          },
-        })
-        .to(titleRef.current, { top: "28%", left: "15%", ease: "none" }, 0)
-        .to(paraOneRef.current, { top: "42%", right: "12%", ease: "none" }, 0)
-        .to(paraTwoRef.current, { top: "60%", right: "12%", ease: "none" }, 0);
+      const entry = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top 40%",
+          end: "top -30%",
+          scrub: true,
+        },
+      });
+      if (isMobile) {
+        entry
+          .to(titleRef.current, { top: "19%", ease: "none" }, 0)
+          .to(paraOneRef.current, { top: "29%", ease: "none" }, 0)
+          .to(paraTwoRef.current, { top: "46%", ease: "none" }, 0);
+      } else {
+        entry
+          .to(titleRef.current, { top: "28%", left: "15%", ease: "none" }, 0)
+          .to(paraOneRef.current, { top: "42%", right: "12%", ease: "none" }, 0)
+          .to(paraTwoRef.current, { top: "60%", right: "12%", ease: "none" }, 0);
+      }
 
       const measure = () => {
         stageH = section.clientHeight;
         const w = section.clientWidth;
-        base = Math.min(stageH, (9 / 16) * w);
+        base = isMobile ? Math.min(stageH, w) : Math.min(stageH, (9 / 16) * w);
         band = 0.42 * base;
         colH = (2500 / 768) * band;
         watchTop = 0.18 * base;
         step = 0.391111 * base;
         stepFar = 0.497778 * base;
         stepBack = -0.311111 * base;
+
+        // Where the label sits with no lift (reference math), then lift the
+        // phone band so the conveyor reads at ~56% instead of hugging the very
+        // bottom of a tall portrait stage.
+        const centerY = stageH - 0.32 * colH - 2 * watchTop + 0.5 * band;
+        vOff = isMobile ? Math.max(0, centerY - 0.56 * stageH) : 0;
+
+        section.style.setProperty("--about-band", `${band}px`);
+        section.style.setProperty("--about-watch-top", `${watchTop}px`);
       };
 
       /** Place an item on the circle. `angle` is a % (0–100+), `rot` in deg. */
@@ -187,6 +207,7 @@ export function AboutSection() {
             gsap.set(el, {
               xPercent: -50,
               x: i * step,
+              y: -vOff,
               opacity: i === 0 ? 1 : 0,
             });
         });
@@ -217,7 +238,12 @@ export function AboutSection() {
           if (el) gsap.set(el, { opacity: 0 });
         });
 
-        gsap.set(leadColRef.current, { xPercent: -50, x: -step, opacity: 1 });
+        gsap.set(leadColRef.current, {
+          xPercent: -50,
+          x: -step,
+          y: -vOff,
+          opacity: 1,
+        });
         gsap.set(leadBlockRef.current, {
           xPercent: -50,
           transformOrigin: "50% 100%",
@@ -240,6 +266,7 @@ export function AboutSection() {
         gsap.set(trailColRef.current, {
           xPercent: -50,
           x: count * step,
+          y: -vOff,
           opacity: 0,
         });
         gsap.set(trailBlockRef.current, {
@@ -293,7 +320,7 @@ export function AboutSection() {
         measure();
 
         const watchMid = place(68, 0);
-        const watchCenterY = watchTop + watchMid.y + band / 2;
+        const watchCenterY = watchTop + watchMid.y + band / 2 - vOff;
         section.style.setProperty("--watch-center-y", `${watchCenterY}px`);
 
         const d = clamp01(progress / 0.57);
@@ -549,9 +576,13 @@ export function AboutSection() {
           });
         }
 
+        const cardW = isMobile ? 72 : 32;
+        const gap = isMobile ? 5 : 2;
+        const spacing = cardW + gap;
+        const first = cardW / 2;
         const beltTotal = Math.max(
           0,
-          32 * insights.length + (insights.length - 1) * 2 - 100,
+          cardW * insights.length + gap * (insights.length - 1) - 100,
         );
         const ee = clamp01((progress - 0.87 * 0.57) / (1 - 0.87 * 0.57));
         const et = 100 + (-beltTotal - 100) * (1 - (1 - ee) * (1 - ee));
@@ -561,9 +592,9 @@ export function AboutSection() {
         insights.forEach((_, i) => {
           const el = insightTextRefs.current[i];
           if (!el) return;
-          const a = clamp01(1 - Math.abs(34 * i + 16 + et - 50) / 34);
-          el.style.fontSize = "1.5625vw";
-          el.style.lineHeight = "2.0833vw";
+          const a = clamp01(1 - Math.abs(spacing * i + first + et - 50) / spacing);
+          el.style.fontSize = isMobile ? "3.4vw" : "1.5625vw";
+          el.style.lineHeight = isMobile ? "4.4vw" : "2.0833vw";
           el.style.transformOrigin = "center center";
           el.style.transform = `scale(${0.92 + 0.23 * a})`;
           el.style.color = `rgba(255, 255, 255, ${0.59 + 0.41 * a})`;
@@ -577,7 +608,7 @@ export function AboutSection() {
       ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: "+=1830%",
+        end: isMobile ? "+=380%" : "+=1830%",
         pin: true,
         // The Lenis root is `display:flex`, and ScrollTrigger silently disables
         // pinSpacing when the pin's parent is flex — which would leave the page
@@ -590,7 +621,7 @@ export function AboutSection() {
       const scrub = ScrollTrigger.create({
         trigger: section,
         start: "top top",
-        end: "+=2030%",
+        end: isMobile ? "+=420%" : "+=2030%",
         scrub: 1,
         invalidateOnRefresh: true,
         onUpdate: (self) => drive(self.progress),
@@ -616,86 +647,144 @@ export function AboutSection() {
       return () => {
         cancelAnimationFrame(raf);
         ro.disconnect();
+        entry.scrollTrigger?.kill();
+        entry.kill();
       };
-    });
+    };
+
+    mm.add("(max-width: 1023px)", () => build(true));
+    mm.add("(min-width: 1024px)", () => build(false));
 
     return () => mm.revert();
   }, [perfumes, insights]);
-
-  // The reference rebuilds the whole experience when the layout breakpoint
-  // flips (the pin geometry is measured for one frame only) — it hard-reloads.
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
-    const onFlip = () => window.location.reload();
-    mq.addEventListener("change", onFlip);
-    return () => mq.removeEventListener("change", onFlip);
-  }, []);
 
   return (
     <section
       ref={sectionRef}
       id={aboutConfig.sectionId}
-      className="relative w-full md:h-[100dvh] md:overflow-hidden"
+      className="relative h-[100dvh] w-full overflow-hidden"
       aria-labelledby="home-about-title"
     >
-      {/* ─────────────── Desktop composition ─────────────── */}
-      <div className="hidden md:block">
-        {/* Corner flourishes: left slides in from the left edge, right from the right. */}
-        <Image
-          ref={decorLeftRef}
-          src={decorLeftArt}
-          alt=""
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-[8%] left-0 z-[3] h-auto w-[38vw] will-change-transform"
+      {/* Corner flourishes: left slides in from the left edge, right from the right. */}
+      <Image
+        ref={decorLeftRef}
+        src={decorLeftArt}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-[8%] left-0 z-[3] h-auto w-[38vw] will-change-transform"
+      />
+      <Image
+        ref={decorRightRef}
+        src={decorRightArt}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[5%] right-0 z-[3] h-auto w-[38vw] will-change-transform"
+      />
+      <div
+        ref={insightsRef}
+        aria-hidden="true"
+        data-page-exit-delay="250"
+        className="pointer-events-none absolute inset-0 opacity-0"
+      >
+        <InsightsUI
+          items={insights}
+          heading={t("insightsHeading")}
+          subheading={t("insightsSubheading")}
+          ctaLabel={t("insightsCta")}
+          ctaHref={aboutConfig.ctaHref}
+          hideCtaOnWideRatio
+          cardsSliderRef={cardsRef}
+          textsSliderRef={textsRef}
+          textRefs={insightTextRefs}
         />
+      </div>
+
+      <span
+        ref={watermarkRef}
+        aria-hidden="true"
+        className="font-forum pointer-events-none absolute bottom-[5%] left-0 z-0 w-full text-center whitespace-nowrap uppercase opacity-0"
+        style={{
+          color: "rgba(255, 255, 255, 0.05)",
+          fontSize: "13.825vw",
+          fontWeight: 400,
+          lineHeight: "71.333%",
+          letterSpacing: isArabic ? "0" : "4.21875vw",
+        }}
+      >
+        {content.watermark}
+      </span>
+
+      {/* Leading pillar — carries the last perfume around the seam. */}
+      <div
+        ref={leadColRef}
+        className="pointer-events-none absolute top-0 left-1/2 z-[50] h-full w-[var(--about-band,23.625vw)] opacity-0"
+      >
         <Image
-          ref={decorRightRef}
-          src={decorRightArt}
+          ref={leadBlockRef}
+          src={aboutConfig.blockColumn}
           alt=""
+          width={BLOCK_SIZE.width}
+          height={BLOCK_SIZE.height}
+          priority
           aria-hidden="true"
-          className="pointer-events-none absolute top-[5%] right-0 z-[3] h-auto w-[38vw] will-change-transform"
+          className="absolute bottom-0 left-1/2 z-[1] h-auto w-full will-change-transform"
         />
         <div
-          ref={insightsRef}
-          aria-hidden="true"
-          data-page-exit-delay="250"
-          className="pointer-events-none absolute inset-0 opacity-0"
+          ref={leadWatchRef}
+          className="absolute top-[var(--about-watch-top,10.125vw)] left-1/2 z-0 w-full will-change-transform"
         >
-          <InsightsUI
-            items={insights}
-            heading={t("insightsHeading")}
-            subheading={t("insightsSubheading")}
-            ctaLabel={t("insightsCta")}
-            ctaHref={aboutConfig.ctaHref}
-            hideCtaOnWideRatio
-            cardsSliderRef={cardsRef}
-            textsSliderRef={textsRef}
-            textRefs={insightTextRefs}
+          <PocketWatch
+            frameSrc={aboutConfig.bottle}
+            frameWidth={BOTTLE_SIZE.width}
+            frameHeight={BOTTLE_SIZE.height}
+            imageSrc={perfumes[count - 1].image}
+            className="w-full"
           />
         </div>
+      </div>
 
-        <span
-          ref={watermarkRef}
+      {/* Trailing pillar — carries the first perfume around the seam. */}
+      <div
+        ref={trailColRef}
+        className="pointer-events-none absolute top-0 left-1/2 z-[50] h-full w-[var(--about-band,23.625vw)] opacity-0"
+      >
+        <Image
+          ref={trailBlockRef}
+          src={aboutConfig.blockColumn}
+          alt=""
+          width={BLOCK_SIZE.width}
+          height={BLOCK_SIZE.height}
+          priority
           aria-hidden="true"
-          className="font-forum pointer-events-none absolute bottom-[5%] left-0 z-0 w-full text-center whitespace-nowrap uppercase opacity-0"
-          style={{
-            color: "rgba(255, 255, 255, 0.05)",
-            fontSize: "13.825vw",
-            fontWeight: 400,
-            lineHeight: "71.333%",
-            letterSpacing: isArabic ? "0" : "4.21875vw",
+          className="absolute bottom-0 left-1/2 z-[1] h-auto w-full will-change-transform"
+        />
+        <div
+          ref={trailWatchRef}
+          className="absolute top-[var(--about-watch-top,10.125vw)] left-1/2 z-0 w-full will-change-transform"
+        >
+          <PocketWatch
+            frameSrc={aboutConfig.bottle}
+            frameWidth={BOTTLE_SIZE.width}
+            frameHeight={BOTTLE_SIZE.height}
+            imageSrc={perfumes[0].image}
+            className="w-full"
+          />
+        </div>
+      </div>
+
+      {/* Per-perfume pillars */}
+      {perfumes.map((p, i) => (
+        <div
+          key={p.id}
+          ref={(el) => {
+            colRefs.current[i] = el;
           }}
-        >
-          {content.watermark}
-        </span>
-
-        {/* Leading pillar — carries the last perfume around the seam. */}
-        <div
-          ref={leadColRef}
-          className="pointer-events-none absolute top-0 left-1/2 z-[50] h-full w-[min(42dvh,23.625vw)] opacity-0"
+          className="pointer-events-none absolute top-0 left-1/2 z-[50] h-full w-[var(--about-band,23.625vw)] opacity-0"
         >
           <Image
-            ref={leadBlockRef}
+            ref={(el) => {
+              blockRefs.current[i] = el;
+            }}
             src={aboutConfig.blockColumn}
             alt=""
             width={BLOCK_SIZE.width}
@@ -705,243 +794,111 @@ export function AboutSection() {
             className="absolute bottom-0 left-1/2 z-[1] h-auto w-full will-change-transform"
           />
           <div
-            ref={leadWatchRef}
-            className="absolute top-[min(18%,10.125vw)] left-1/2 z-0 w-full will-change-transform"
-          >
-            <PocketWatch
-              frameSrc={aboutConfig.bottle}
-              frameWidth={BOTTLE_SIZE.width}
-              frameHeight={BOTTLE_SIZE.height}
-              imageSrc={perfumes[count - 1].image}
-              className="w-full"
-            />
-          </div>
-        </div>
-
-        {/* Trailing pillar — carries the first perfume around the seam. */}
-        <div
-          ref={trailColRef}
-          className="pointer-events-none absolute top-0 left-1/2 z-[50] h-full w-[min(42dvh,23.625vw)] opacity-0"
-        >
-          <Image
-            ref={trailBlockRef}
-            src={aboutConfig.blockColumn}
-            alt=""
-            width={BLOCK_SIZE.width}
-            height={BLOCK_SIZE.height}
-            priority
-            aria-hidden="true"
-            className="absolute bottom-0 left-1/2 z-[1] h-auto w-full will-change-transform"
-          />
-          <div
-            ref={trailWatchRef}
-            className="absolute top-[min(18%,10.125vw)] left-1/2 z-0 w-full will-change-transform"
-          >
-            <PocketWatch
-              frameSrc={aboutConfig.bottle}
-              frameWidth={BOTTLE_SIZE.width}
-              frameHeight={BOTTLE_SIZE.height}
-              imageSrc={perfumes[0].image}
-              className="w-full"
-            />
-          </div>
-        </div>
-
-        {/* Per-perfume pillars */}
-        {perfumes.map((p, i) => (
-          <div
-            key={p.id}
             ref={(el) => {
-              colRefs.current[i] = el;
+              watchRefs.current[i] = el;
             }}
-            className="pointer-events-none absolute top-0 left-1/2 z-[50] h-full w-[min(42dvh,23.625vw)] opacity-0"
+            className="absolute top-[var(--about-watch-top,10.125vw)] left-1/2 z-0 w-full will-change-transform"
           >
-            <Image
+            <Link
               ref={(el) => {
-                blockRefs.current[i] = el;
+                linkRefs.current[i] = el;
               }}
-              src={aboutConfig.blockColumn}
-              alt=""
-              width={BLOCK_SIZE.width}
-              height={BLOCK_SIZE.height}
-              priority
-              aria-hidden="true"
-              className="absolute bottom-0 left-1/2 z-[1] h-auto w-full will-change-transform"
-            />
-            <div
-              ref={(el) => {
-                watchRefs.current[i] = el;
-              }}
-              className="absolute top-[min(18%,10.125vw)] left-1/2 z-0 w-full will-change-transform"
+              href={p.href}
+              aria-label={p.title}
+              data-page-exit-delay="250"
+              tabIndex={-1}
+              className="block w-full cursor-pointer transition-transform duration-300 will-change-transform hover:scale-[1.04]"
+              style={{ pointerEvents: "none" }}
             >
-              <Link
-                ref={(el) => {
-                  linkRefs.current[i] = el;
-                }}
-                href={p.href}
-                aria-label={p.title}
-                data-page-exit-delay="250"
-                tabIndex={-1}
-                className="block w-full cursor-pointer transition-transform duration-300 will-change-transform hover:scale-[1.04]"
-                style={{ pointerEvents: "none" }}
-              >
-                <PocketWatch
-                  frameSrc={aboutConfig.bottle}
-                  frameWidth={BOTTLE_SIZE.width}
-                  frameHeight={BOTTLE_SIZE.height}
-                  imageSrc={p.image}
-                  sourceId={p.slug}
-                  className="w-full"
-                />
-              </Link>
-            </div>
-          </div>
-        ))}
-
-        {/* Name + summary labels, cross-faded at the bottle centre. */}
-        {perfumes.map((p, i) => (
-          <div
-            key={`text-${p.id}`}
-            ref={(el) => {
-              labelRefs.current[i] = el;
-            }}
-            className="pointer-events-none absolute inset-0 z-[15] opacity-0 will-change-[opacity]"
-          >
-            <div
-              dir={isArabic ? "rtl" : "ltr"}
-              className="font-forum absolute top-[var(--watch-center-y,44.74dvh)] left-[22%] w-[18vw] -translate-y-1/2 text-[3.125vw] leading-[105%] font-normal text-white"
-            >
-              {p.title}
-            </div>
-            <div
-              dir={isArabic ? "rtl" : "ltr"}
-              className="font-forum absolute top-[var(--watch-center-y,44.74dvh)] right-[15%] flex w-[22vw] -translate-y-1/2 flex-col text-[1.0417vw] leading-[135%] font-normal text-white"
-            >
-              <p>{p.summary}</p>
-            </div>
-          </div>
-        ))}
-
-        <h2
-          ref={titleRef}
-          id="home-about-title"
-          className="font-forum absolute top-[15%] z-10 ml-[2.3rem] text-[28px] leading-[78.75%] font-normal tracking-[0.04em] text-white uppercase will-change-[filter] md:top-[18%] md:left-[0%] md:ml-[clamp(1.6rem,3.5vw,13rem)] md:text-[4.1667vw]"
-        >
-          {content.title}
-        </h2>
-
-        <div
-          ref={paraOneRef}
-          className="font-forum absolute top-[25%] z-10 mr-[2.3rem] flex flex-col gap-[20px] text-[14px] leading-[166.667%] will-change-[filter] md:top-[38%] md:right-[20%] md:left-auto md:w-[38vw] md:gap-[2.5vw] md:text-[1.25vw]"
-        >
-          <p>
-            <GradientText>{content.paragraphOne}</GradientText>
-          </p>
-        </div>
-
-        <div
-          ref={paraTwoRef}
-          className="font-forum absolute top-[35%] z-10 mr-[2.3rem] flex flex-col gap-[20px] text-[14px] leading-[166.667%] will-change-[filter] md:top-[55%] md:right-[0%] md:left-auto md:w-[38vw] md:gap-[2.5vw] md:text-[1.25vw]"
-        >
-          <p>
-            <GradientText>{content.paragraphTwo}</GradientText>
-          </p>
-        </div>
-
-        <Link
-          ref={ctaRef}
-          href={content.ctaHref}
-          className="group absolute right-[0%] bottom-[14%] z-10 inline-flex items-center gap-[14px] text-white/70 transition-colors hover:text-white md:right-[14%] md:gap-[1vw]"
-        >
-          <span className="font-forum text-[14px] tracking-[0.1em] md:text-[0.9375vw]">
-            {content.ctaLabel}
-          </span>
-          <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-white/25 bg-white/5 backdrop-blur-md transition-[transform,background-color,border-color] duration-300 group-hover:scale-[1.02] group-hover:border-white/75 md:h-[3.5vw] md:w-[3.5vw]">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 14 26"
-              fill="none"
-              aria-hidden="true"
-              className="h-[16px] w-auto md:h-[1.1vw]"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M0.2925 1.7065L10.8785 12.2925C11.2685 12.6825 11.2685 13.3165 10.8785 13.7065L0.2925 24.2925C-0.0975 24.6825 -0.0975 25.3165 0.2925 25.7065C0.6825 26.0965 1.3165 26.0965 1.7065 25.7065C1.7065 25.7065 9.1185 18.2945 12.2925 15.1205C13.4635 13.9495 13.4635 12.0495 12.2925 10.8785L1.7065 0.2925C1.3165 -0.0975 0.6825 -0.0975 0.2925 0.2925C-0.0975 0.6825 -0.0975 1.3165 0.2925 1.7065Z"
-                fill="white"
-                className="[fill-opacity:0.3] transition-[fill-opacity] duration-300 group-hover:[fill-opacity:0.7]"
+              <PocketWatch
+                frameSrc={aboutConfig.bottle}
+                frameWidth={BOTTLE_SIZE.width}
+                frameHeight={BOTTLE_SIZE.height}
+                imageSrc={p.image}
+                sourceId={p.slug}
+                className="w-full"
               />
-            </svg>
-          </span>
-        </Link>
-      </div>
-
-      {/* ─────────────── Mobile fallback ─────────────── */}
-      <div className="flex flex-col gap-16 px-6 py-24 md:hidden">
-        <div dir={isArabic ? "rtl" : "ltr"}>
-          <h2 className="font-forum text-4xl leading-tight font-normal text-white">
-            {content.title}
-          </h2>
-          <p className="mt-6 text-sm leading-relaxed text-beige/75">
-            {content.paragraphOne}
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-beige/80">
-            {content.paragraphTwo}
-          </p>
+            </Link>
+          </div>
         </div>
+      ))}
 
-        <ul className="flex flex-col gap-12">
-          {perfumes.map((p) => (
-            <li key={p.id} className="flex flex-col gap-4">
-              <Link
-                href={p.href}
-                className="relative mx-auto block h-64 w-64 overflow-hidden rounded-full"
-              >
-                <Image
-                  src={p.image}
-                  alt={p.title}
-                  fill
-                  sizes="70vw"
-                  className="object-cover"
-                />
-              </Link>
-              <div dir={isArabic ? "rtl" : "ltr"} className="text-center">
-                <h3 className="font-primary text-2xl font-medium text-white">
-                  {p.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-beige/70">
-                  {p.summary}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-
-        <Link
-          href={content.ctaHref}
-          className="mx-auto inline-flex items-center gap-4 text-white/80"
+      {/* Name + summary labels, cross-faded at the bottle centre. */}
+      {perfumes.map((p, i) => (
+        <div
+          key={`text-${p.id}`}
+          ref={(el) => {
+            labelRefs.current[i] = el;
+          }}
+          className="pointer-events-none absolute inset-0 z-[15] opacity-0 will-change-[opacity]"
         >
-          <span className="font-primary text-base tracking-[0.1em]">
-            {content.ctaLabel}
-          </span>
-          <span className="flex h-11 w-11 items-center justify-center rounded-full border border-white/25">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-              className="h-auto w-4"
-            >
-              <path d="M5 12h14" />
-              <path d="m12 5 7 7-7 7" />
-            </svg>
-          </span>
-        </Link>
+          <div
+            dir={isArabic ? "rtl" : "ltr"}
+            className="font-forum absolute top-[var(--watch-center-y,44.74dvh)] left-0 w-full -translate-y-[165%] text-center text-[clamp(1.4rem,6.5vw,2.2rem)] leading-[110%] font-normal text-white lg:left-[22%] lg:w-[18vw] lg:-translate-y-1/2 lg:text-left lg:text-[3.125vw] lg:leading-[105%]"
+          >
+            {p.title}
+          </div>
+          <div
+            dir={isArabic ? "rtl" : "ltr"}
+            className="font-forum absolute top-[var(--watch-center-y,44.74dvh)] left-0 w-full translate-y-[55%] text-center text-[clamp(0.85rem,3.6vw,1.05rem)] leading-[150%] font-normal text-white lg:left-auto lg:right-[15%] lg:w-[22vw] lg:-translate-y-1/2 lg:text-left lg:text-[1.0417vw] lg:leading-[135%]"
+          >
+            <p>{p.summary}</p>
+          </div>
+        </div>
+      ))}
+
+      <h2
+        ref={titleRef}
+        id="home-about-title"
+        className="font-forum absolute top-[13%] left-0 z-10 w-full px-[1.6rem] text-[clamp(1.6rem,7vw,2.4rem)] leading-[85%] font-normal tracking-[0.04em] text-white uppercase will-change-[filter] lg:top-[18%] lg:left-0 lg:ml-[clamp(1.6rem,3.5vw,13rem)] lg:w-auto lg:px-0 lg:text-[4.1667vw]"
+      >
+        {content.title}
+      </h2>
+
+      <div
+        ref={paraOneRef}
+        className="font-forum absolute top-[24%] left-0 z-10 flex w-full flex-col gap-[20px] px-[1.6rem] text-[clamp(0.9rem,3.6vw,1.05rem)] leading-[150%] will-change-[filter] lg:top-[38%] lg:right-[20%] lg:left-auto lg:w-[38vw] lg:gap-[2.5vw] lg:px-0 lg:text-[1.25vw] lg:leading-[166.667%]"
+      >
+        <p>
+          <GradientText>{content.paragraphOne}</GradientText>
+        </p>
       </div>
+
+      <div
+        ref={paraTwoRef}
+        className="font-forum absolute top-[42%] left-0 z-10 flex w-full flex-col gap-[20px] px-[1.6rem] text-[clamp(0.9rem,3.6vw,1.05rem)] leading-[150%] will-change-[filter] lg:top-[55%] lg:right-[0%] lg:left-auto lg:w-[38vw] lg:gap-[2.5vw] lg:px-0 lg:text-[1.25vw] lg:leading-[166.667%]"
+      >
+        <p>
+          <GradientText>{content.paragraphTwo}</GradientText>
+        </p>
+      </div>
+
+      <Link
+        ref={ctaRef}
+        href={content.ctaHref}
+        className="group absolute right-[6%] bottom-[12%] z-10 inline-flex items-center gap-[14px] text-white/70 transition-colors hover:text-white lg:right-[14%] lg:bottom-[14%] lg:gap-[1vw]"
+      >
+        <span className="font-forum text-[14px] tracking-[0.1em] lg:text-[0.9375vw]">
+          {content.ctaLabel}
+        </span>
+        <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-white/25 bg-white/5 backdrop-blur-md transition-[transform,background-color,border-color] duration-300 group-hover:scale-[1.02] group-hover:border-white/75 lg:h-[3.5vw] lg:w-[3.5vw]">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 14 26"
+            fill="none"
+            aria-hidden="true"
+            className="h-[16px] w-auto lg:h-[1.1vw]"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M0.2925 1.7065L10.8785 12.2925C11.2685 12.6825 11.2685 13.3165 10.8785 13.7065L0.2925 24.2925C-0.0975 24.6825 -0.0975 25.3165 0.2925 25.7065C0.6825 26.0965 1.3165 26.0965 1.7065 25.7065C1.7065 25.7065 9.1185 18.2945 12.2925 15.1205C13.4635 13.9495 13.4635 12.0495 12.2925 10.8785L1.7065 0.2925C1.3165 -0.0975 0.6825 -0.0975 0.2925 0.2925C-0.0975 0.6825 -0.0975 1.3165 0.2925 1.7065Z"
+              fill="white"
+              className="[fill-opacity:0.3] transition-[fill-opacity] duration-300 group-hover:[fill-opacity:0.7]"
+            />
+          </svg>
+        </span>
+      </Link>
     </section>
   );
 }

@@ -17,7 +17,7 @@ export function StoreCatalog() {
     <StoreShell>
       <div dir={isRtl ? "rtl" : "ltr"}>
         <header className="mb-12 flex flex-col items-center gap-3 text-center">
-          <p className="text-[10px] font-medium tracking-[0.3em] text-gold">
+          <p className={`text-[10px] font-medium text-gold ${isRtl ? "" : "tracking-[0.3em]"}`}>
             {t("eyebrow")}
           </p>
           <h1 className="font-primary text-[clamp(2.2rem,5vw,3.5rem)] font-medium leading-tight text-beige">
