@@ -41,6 +41,18 @@
     "headline": "What Remains of Every Civilization",
     "cta": "Begin the Journey"
   },
+  "Gallery": {
+    "eyebrow": "The Gallery",
+    "title": "The Bottle Gallery",
+    "subheading": "Four civilizations, kept in a bottle.",
+    "ctaLabel": "Discover the Collection",
+    "items": {
+      "egypt": { "name": "Egypt", "tag": "Where the scent was born" },
+      "babylon": { "name": "Babylon", "tag": "Where the first rose opened" },
+      "greece": { "name": "Greece", "tag": "Where scent became wisdom" },
+      "china": { "name": "China", "tag": "Where scent touched the sky" }
+    }
+  },
   "BrandStory": {
     "headline": "The Beginning. Where the Perfume Was Born",
     "body": "In ancient Egypt, perfume was not a luxury.\nIt was an offering to the gods, a memory for kings, and one of the secrets of immortality.\nFrom the blue lotus, myrrh, and frankincense,\nthe Egyptians drew the first scent ever told.\nAnd now, it rests in your hands.",

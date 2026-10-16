@@ -17,12 +17,20 @@ interface HeroSceneProps {
   pixlrTravelRef: RefObject<HTMLDivElement | null>;
   pixlrShadowRef: RefObject<HTMLDivElement | null>;
   egyptRef: RefObject<HTMLDivElement | null>;
+  egyptPedestalRef: RefObject<HTMLImageElement | null>;
   babylonRef: RefObject<HTMLDivElement | null>;
+  babylonPedestalRef: RefObject<HTMLImageElement | null>;
   greeceRef: RefObject<HTMLDivElement | null>;
+  greecePedestalRef: RefObject<HTMLImageElement | null>;
   chinaRef: RefObject<HTMLDivElement | null>;
+  chinaPedestalRef: RefObject<HTMLImageElement | null>;
   mistRef: RefObject<HeroMistHandle | null>;
   radarRef: RefObject<HTMLDivElement | null>;
   overlayRef: RefObject<HTMLDivElement | null>;
+  egyptCheetahRef: RefObject<HTMLImageElement | null>;
+  babylonCheetahRef: RefObject<HTMLImageElement | null>;
+  greeceCheetahRef: RefObject<HTMLImageElement | null>;
+  chinaCheetahRef: RefObject<HTMLImageElement | null>;
 }
 
 interface PlateProps {
@@ -33,16 +41,6 @@ interface PlateProps {
   topFade: string;
 }
 
-/**
- * One civilization plate — the shared stage every section hands off to.
- *
- * Same curtain mechanic throughout: it starts ONE SCREEN BELOW (`translateY
- * 100%`) and the bridge RAISES it like a curtain (GSAP owns its yPercent).
- * The veil + top melt are MASKED to the plate's OWN alpha (the sky region of
- * each plate is transparent), so the navy tint lands only on the artwork while
- * the shared clouds show through UNMODIFIED — every section reads as one
- * continuous background layer under one constructed sky.
- */
 function Plate({ plateRef, src, filter, veil, topFade }: PlateProps) {
   return (
     <div
@@ -76,17 +74,6 @@ function Plate({ plateRef, src, filter, veil, topFade }: PlateProps) {
   );
 }
 
-/**
- * The single pinned scene — hero AND Egypt in one stacking context.
- *
- * PAINT ORDER (DOM order, no z fights): backdrop → radar → Egypt plate →
- * Babylon plate → THE bottle → hero artwork → overlays. The one bottle sits
- * ABOVE both plates and BELOW the artwork: during the hero it reads as
- * standing inside the panorama; when the artwork fades in the bridge, the SAME
- * bottle is revealed on the Egypt plate, and the Egypt→Babylon bridge hands
- * off to the Babylon plate the same way — no reorder, no duplicate, no second
- * element.
- */
 export function HeroScene({
   skyRef,
   bottleRef,
@@ -95,12 +82,20 @@ export function HeroScene({
   pixlrTravelRef,
   pixlrShadowRef,
   egyptRef,
+  egyptPedestalRef,
   babylonRef,
+  babylonPedestalRef,
   greeceRef,
+  greecePedestalRef,
   chinaRef,
+  chinaPedestalRef,
   mistRef,
   radarRef,
   overlayRef,
+  egyptCheetahRef,
+  babylonCheetahRef,
+  greeceCheetahRef,
+  chinaCheetahRef,
 }: HeroSceneProps) {
   const frame = useHeroResponsive();
 
@@ -112,12 +107,6 @@ export function HeroScene({
         isMobile={frame.isMobile}
       />
 
-      {/* Radar halo — centered on the frame's focal point, drawn UNDER the
-          bottle so the rings appear to radiate from behind the product. The
-          WRAPPER (radarRef) is the GSAP target that fades the halo out at the
-          China handoff, so the rings accompany the bottle only UP TO China and
-          never reach the hands finale. The inner element keeps its own
-          per-viewport opacity, so the two never fight. */}
       <div ref={radarRef} className="pointer-events-none absolute inset-0">
         <HeroRadar
           className="absolute"
@@ -131,7 +120,7 @@ export function HeroScene({
         />
       </div>
 
-      {/* Egypt plate — the SECOND half's stage. */}
+      {/* Egypt plate */}
       <Plate
         plateRef={egyptRef}
         src={heroSceneConfig.images.egypt2}
@@ -140,8 +129,29 @@ export function HeroScene({
         topFade={egyptConfig.topFade}
       />
 
-      {/* Babylon plate — the THIRD half's stage, painted ABOVE Egypt so it
-          hands off when both are on screen. */}
+      {/* Egypt pedestal (garland) */}
+      <Image
+        ref={egyptPedestalRef}
+        src="/images/sections/1.png"
+        alt=""
+        fill
+        sizes="100vw"
+        aria-hidden="true"
+        className="pointer-events-none object-cover object-center"
+      />
+
+      {/* Egypt cheetah — pinned to bottom-right corner */}
+      <Image
+        ref={egyptCheetahRef}
+        src="/images/sections/ch_1.png"
+        alt=""
+        width={300}
+        height={400}
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
+      />
+
+      {/* Babylon plate */}
       <Plate
         plateRef={babylonRef}
         src={heroSceneConfig.images.babylon}
@@ -150,7 +160,29 @@ export function HeroScene({
         topFade={babylonConfig.topFade}
       />
 
-      {/* Greece plate — the FOURTH half's stage, painted ABOVE Babylon. */}
+      {/* Babylon pedestal */}
+      <Image
+        ref={babylonPedestalRef}
+        src="/images/sections/2.png"
+        alt=""
+        fill
+        sizes="100vw"
+        aria-hidden="true"
+        className="pointer-events-none object-cover object-center"
+      />
+
+      {/* Babylon cheetah — pinned to bottom-right corner */}
+      <Image
+        ref={babylonCheetahRef}
+        src="/images/sections/ch_2.png"
+        alt=""
+        width={300}
+        height={400}
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
+      />
+
+      {/* Greece plate */}
       <Plate
         plateRef={greeceRef}
         src={heroSceneConfig.images.greece}
@@ -159,7 +191,29 @@ export function HeroScene({
         topFade={greeceConfig.topFade}
       />
 
-      {/* China plate — the FIFTH half's stage, painted ABOVE Greece. */}
+      {/* Greece pedestal */}
+      <Image
+        ref={greecePedestalRef}
+        src="/images/sections/3.png"
+        alt=""
+        fill
+        sizes="100vw"
+        aria-hidden="true"
+        className="pointer-events-none object-cover object-center"
+      />
+
+      {/* Greece cheetah — pinned to bottom-right corner */}
+      <Image
+        ref={greeceCheetahRef}
+        src="/images/sections/ch_3.png"
+        alt=""
+        width={300}
+        height={400}
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
+      />
+
+      {/* China plate */}
       <Plate
         plateRef={chinaRef}
         src={heroSceneConfig.images.china}
@@ -168,18 +222,30 @@ export function HeroScene({
         topFade={chinaConfig.topFade}
       />
 
-      {/* The MIST WALL — a front-layer FBM bank (same family as the hero
-          clouds) that thickens at every section→section swap, rolling upward
-          with the conveyor: the current plate sinks into it and the next
-          emerges from it — one atmosphere, no curtain seam. Painted ABOVE the
-          plates, BELOW the bottle so the product stays sharp through the fog. */}
+      {/* China pedestal */}
+      <Image
+        ref={chinaPedestalRef}
+        src="/images/sections/4.png"
+        alt=""
+        fill
+        sizes="100vw"
+        aria-hidden="true"
+        className="pointer-events-none object-cover object-center"
+      />
+
+      {/* China cheetah — pinned to bottom-right corner */}
+      <Image
+        ref={chinaCheetahRef}
+        src="/images/sections/ch_4.png"
+        alt=""
+        width={300}
+        height={400}
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
+      />
+
       <HeroMist ref={mistRef} isMobile={frame.isMobile} />
 
-      {/* THE single traveling bottle. The ANCHOR owns `top` (% of the lens) so
-          GSAP slides it hero→platform; the TRAVEL wrapper owns scale/rotation;
-          the INNER element owns the CSS float — three layers, three
-          transforms, zero collisions (GSAP never neutralises a sibling's
-          Tailwind translate). RTL-safe: left-1/2 + -translate-x-1/2 only. */}
       <div
         ref={pixlrAnchorRef}
         className="pointer-events-none absolute left-1/2 z-0"
@@ -191,7 +257,6 @@ export function HeroScene({
         aria-hidden="true"
       >
         <div ref={pixlrTravelRef} className="relative will-change-transform">
-          {/* Contact shadow — blooms as the bottle lands on the platform. */}
           <div
             ref={pixlrShadowRef}
             className="absolute bottom-[4%] left-1/2 h-[3%] w-[52%] -translate-x-1/2 rounded-[50%] bg-black blur-2xl"
@@ -214,10 +279,6 @@ export function HeroScene({
         </div>
       </div>
 
-      {/* Positioning wrapper (frame.bottleClassName) must stay OUTSIDE the
-          GSAP target: GSAP writes `translate: none` while normalizing the
-          transform, which would neutralize the Tailwind `-translate-x-1/2`
-          centering on mobile. The ref lives on the inner animated element. */}
       <div className={frame.bottleClassName}>
         <div ref={bottleRef} className="will-change-transform">
           <Image
@@ -232,8 +293,6 @@ export function HeroScene({
         </div>
       </div>
 
-      {/* Hero overlays (tint + mist) — wrapped so the bridge can fade them out
-          as one unit, letting the Egypt plate and copy read cleanly. */}
       <div ref={overlayRef} className="pointer-events-none absolute inset-0">
         <div className={`absolute inset-0 bg-gradient-to-b ${frame.overlay}`} />
         <div

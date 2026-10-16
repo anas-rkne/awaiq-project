@@ -16,7 +16,6 @@ import { GreeceStatic } from "./GreeceStatic";
 import { HandsCopy } from "./HandsCopy";
 import { HeroCopy } from "./HeroCopy";
 import { HeroLoader } from "./HeroLoader";
-import { StoryEmblem } from "./StoryEmblem";
 import { HeroScene } from "./HeroScene";
 import { HeroStage } from "./HeroStage";
 import { HandsStageOverlay } from "./HandsStageOverlay";
@@ -51,12 +50,16 @@ function HeroContent({ className }: { className?: string }) {
     pixlrTravelRef,
     pixlrShadowRef,
     egyptRef,
+    egyptPedestalRef,
     egyptCopyRef,
     babylonRef,
+    babylonPedestalRef,
     babylonCopyRef,
     greeceRef,
+    greecePedestalRef,
     greeceCopyRef,
     chinaRef,
+    chinaPedestalRef,
     chinaCopyRef,
     mistRef,
     overlayRef,
@@ -64,10 +67,10 @@ function HeroContent({ className }: { className?: string }) {
     handsStageRef,
     handsHandleRef,
     handsCopyRef,
-    egyptEmblemRef,
-    babylonEmblemRef,
-    greeceEmblemRef,
-    chinaEmblemRef,
+    egyptCheetahRef,
+  babylonCheetahRef,
+  greeceCheetahRef,
+  chinaCheetahRef,
   } = useHeroMotion();
   const frame = useHeroResponsive();
 
@@ -85,12 +88,6 @@ function HeroContent({ className }: { className?: string }) {
             <BabylonCopy copyRef={babylonCopyRef} />
             <GreeceCopy copyRef={greeceCopyRef} />
             <ChinaCopy copyRef={chinaCopyRef} />
-            {/* The story emblem — one brand motif on the side OPPOSITE each
-                civilization's copy, revealed in sync with it (see addBridge). */}
-            <StoryEmblem emblemRef={egyptEmblemRef} />
-            <StoryEmblem emblemRef={babylonEmblemRef} />
-            <StoryEmblem emblemRef={greeceEmblemRef} />
-            <StoryEmblem emblemRef={chinaEmblemRef} />
             {/* The HANDS finale of the pin — appended LAST so it paints over
                 the world when the timeline reveals it (see the `hands` window
                 in useHeroMotion / config). */}
@@ -110,12 +107,20 @@ function HeroContent({ className }: { className?: string }) {
           pixlrTravelRef={pixlrTravelRef}
           pixlrShadowRef={pixlrShadowRef}
           egyptRef={egyptRef}
+          egyptPedestalRef={egyptPedestalRef}
           babylonRef={babylonRef}
+          babylonPedestalRef={babylonPedestalRef}
           greeceRef={greeceRef}
+          greecePedestalRef={greecePedestalRef}
           chinaRef={chinaRef}
+          chinaPedestalRef={chinaPedestalRef}
           mistRef={mistRef}
           overlayRef={overlayRef}
           radarRef={radarRef}
+          egyptCheetahRef={egyptCheetahRef}
+  babylonCheetahRef={babylonCheetahRef}
+  greeceCheetahRef={greeceCheetahRef}
+  chinaCheetahRef={chinaCheetahRef}
         />
         <HeroCopy copyRef={copyRef} />
       </HeroStage>
