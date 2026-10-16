@@ -129,7 +129,8 @@ export function HeroScene({
         topFade={egyptConfig.topFade}
       />
 
-      {/* Egypt pedestal (garland) */}
+      {/* Egypt pedestal (garland) — on mobile it sits in the MIDDLE of the
+          screen (top-1/2 -translate-y-1/2); on desktop it stays bottom-anchored. */}
       <Image
         ref={egyptPedestalRef}
         src="/images/sections/1.png"
@@ -137,7 +138,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover object-bottom md:object-center"
+        className="pointer-events-none object-contain object-center md:object-bottom"
       />
 
       {/* Egypt cheetah — pinned to bottom-right corner */}
@@ -160,7 +161,7 @@ export function HeroScene({
         topFade={babylonConfig.topFade}
       />
 
-      {/* Babylon pedestal */}
+      {/* Babylon pedestal — mobile: centered; desktop: bottom-anchored */}
       <Image
         ref={babylonPedestalRef}
         src="/images/sections/2.png"
@@ -168,7 +169,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover object-bottom md:object-center"
+        className="pointer-events-none object-contain object-center md:object-bottom"
       />
 
       {/* Babylon cheetah — pinned to bottom-right corner */}
@@ -191,7 +192,7 @@ export function HeroScene({
         topFade={greeceConfig.topFade}
       />
 
-      {/* Greece pedestal */}
+      {/* Greece pedestal — mobile: centered; desktop: bottom-anchored */}
       <Image
         ref={greecePedestalRef}
         src="/images/sections/3.png"
@@ -199,7 +200,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover object-bottom md:object-center"
+        className="pointer-events-none object-contain object-center md:object-bottom"
       />
 
       {/* Greece cheetah — pinned to bottom-right corner */}
@@ -222,7 +223,7 @@ export function HeroScene({
         topFade={chinaConfig.topFade}
       />
 
-      {/* China pedestal */}
+      {/* China pedestal — mobile: centered; desktop: bottom-anchored */}
       <Image
         ref={chinaPedestalRef}
         src="/images/sections/4.png"
@@ -230,7 +231,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover object-bottom md:object-center"
+        className="pointer-events-none object-contain object-center md:object-bottom"
       />
 
       {/* China cheetah — pinned to bottom-right corner */}
@@ -244,12 +245,7 @@ export function HeroScene({
         className="pointer-events-none absolute bottom-0 right-10 w-[clamp(100px,30vw,180px)] md:w-[clamp(120px,18vw,250px)] lg:w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
       />
 
-      {/* ── The MIST WALL ──────────────────────────────────────────────────
-          Lives ABOVE every plate, pedestal, and cheetah, but BELOW the
-          bottle. When a transition fires, the mist sweeps over EVERYTHING
-          (including the pedestals), so the "checkered" transparency of the
-          outgoing plate is never visible through the mist. The bottle stays
-          sharp because it paints on top. */}
+      {/* ── The MIST WALL ────────────────────────────────────────────────── */}
       <HeroMist ref={mistRef} isMobile={frame.isMobile} />
 
       <div
