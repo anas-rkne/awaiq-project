@@ -138,7 +138,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-contain object-center md:object-bottom"
+  className="pointer-events-none object-contain object-center md:object-cover md:object-[center_50%]"
       />
 
       {/* Egypt cheetah — pinned to bottom-right corner */}
@@ -169,7 +169,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-contain object-center md:object-bottom"
+  className="pointer-events-none object-contain object-center md:object-cover md:object-[center_50%]"
       />
 
       {/* Babylon cheetah — pinned to bottom-right corner */}
@@ -200,7 +200,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-contain object-center md:object-bottom"
+  className="pointer-events-none object-contain object-center md:object-cover md:object-[center_50%]"
       />
 
       {/* Greece cheetah — pinned to bottom-right corner */}
@@ -231,7 +231,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-contain object-center md:object-bottom"
+  className="pointer-events-none object-contain object-center md:object-cover md:object-[center_50%]"
       />
 
       {/* China cheetah — pinned to bottom-right corner */}
