@@ -137,7 +137,7 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover object-center"
+        className="pointer-events-none object-cover object-bottom md:object-center"
       />
 
       {/* Egypt cheetah — pinned to bottom-right corner */}
@@ -148,7 +148,7 @@ export function HeroScene({
         width={300}
         height={400}
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
+        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(100px,30vw,180px)] md:w-[clamp(120px,18vw,250px)] lg:w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
       />
 
       {/* Babylon plate */}
@@ -168,18 +168,18 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover object-center"
+        className="pointer-events-none object-cover object-bottom md:object-center"
       />
 
       {/* Babylon cheetah — pinned to bottom-right corner */}
       <Image
         ref={babylonCheetahRef}
-        src="/images/sections/ch_2.png"
+        src="/images/sections/ch_1.png"
         alt=""
         width={300}
         height={400}
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
+        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(100px,30vw,180px)] md:w-[clamp(120px,18vw,250px)] lg:w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
       />
 
       {/* Greece plate */}
@@ -199,18 +199,18 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover object-center"
+        className="pointer-events-none object-cover object-bottom md:object-center"
       />
 
       {/* Greece cheetah — pinned to bottom-right corner */}
       <Image
         ref={greeceCheetahRef}
-        src="/images/sections/ch_3.png"
+        src="/images/sections/ch_1.png"
         alt=""
         width={300}
         height={400}
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
+        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(100px,30vw,180px)] md:w-[clamp(120px,18vw,250px)] lg:w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
       />
 
       {/* China plate */}
@@ -230,20 +230,26 @@ export function HeroScene({
         fill
         sizes="100vw"
         aria-hidden="true"
-        className="pointer-events-none object-cover object-center"
+        className="pointer-events-none object-cover object-bottom md:object-center"
       />
 
       {/* China cheetah — pinned to bottom-right corner */}
       <Image
         ref={chinaCheetahRef}
-        src="/images/sections/ch_4.png"
+        src="/images/sections/ch_1.png"
         alt=""
         width={300}
         height={400}
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
+        className="pointer-events-none absolute bottom-0 right-10 w-[clamp(100px,30vw,180px)] md:w-[clamp(120px,18vw,250px)] lg:w-[clamp(150px,20vw,300px)] h-auto object-contain object-bottom"
       />
 
+      {/* ── The MIST WALL ──────────────────────────────────────────────────
+          Lives ABOVE every plate, pedestal, and cheetah, but BELOW the
+          bottle. When a transition fires, the mist sweeps over EVERYTHING
+          (including the pedestals), so the "checkered" transparency of the
+          outgoing plate is never visible through the mist. The bottle stays
+          sharp because it paints on top. */}
       <HeroMist ref={mistRef} isMobile={frame.isMobile} />
 
       <div

@@ -29,11 +29,9 @@ export function EgyptCopy({ copyRef }: EgyptCopyProps) {
     <div
       ref={copyRef}
       dir={isArabic ? "rtl" : "ltr"}
-      className="pointer-events-none absolute z-30 flex flex-col items-start gap-5 px-6 text-start md:px-12"
+      className="pointer-events-none absolute z-30 flex flex-col items-start gap-5 px-4 text-start bottom-[4vh] md:bottom-[6vh] lg:bottom-[8vh] w-[min(92vw,24rem)] md:w-[min(85vw,28rem)] lg:w-[min(80vw,34rem)] md:px-8 lg:px-12"
       style={{
         insetInlineStart: 0,
-        bottom: "6vh",
-        width: "min(90vw, 34rem)",
         opacity: 0,
         visibility: "hidden",
       }}
