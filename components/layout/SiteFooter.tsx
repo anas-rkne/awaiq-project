@@ -88,7 +88,7 @@ export function SiteFooter() {
           footer closes the page on the brand's wallpaper. `z-0` keeps it under
           both link columns (`z-30`). */}
       <Image
-        src="/images/sections/footer_bg.jpg"
+        src="/images/sections/footer_bg.png"
         alt=""
         aria-hidden="true"
         width={848}
