@@ -122,11 +122,11 @@ export function SceneReveal({ scene, refs }: SceneRevealProps) {
    */
   const copyCol = short
     ? "absolute inset-y-0 left-0 flex w-[36%] flex-col justify-center px-6 text-left"
-    : "absolute inset-0 flex flex-col items-center px-6 pt-[calc(env(safe-area-inset-top)+4.75rem)] text-center min-[480px]:px-8 min-[768px]:px-10 min-[768px]:pt-[calc(env(safe-area-inset-top)+6rem)] min-[1024px]:right-auto min-[1024px]:items-start min-[1024px]:w-[38%] min-[1024px]:max-w-[640px] min-[1024px]:min-w-[320px] min-[1024px]:justify-end min-[1024px]:px-10 min-[1024px]:pt-0 min-[1024px]:text-left";
+    : "absolute inset-0 flex flex-col items-center px-6 pt-[calc(env(safe-area-inset-top)+4.75rem)] text-center min-[480px]:px-8 min-[768px]:px-10 min-[768px]:pt-[calc(env(safe-area-inset-top)+6rem)] min-[1024px]:right-auto min-[1024px]:items-start min-[1024px]:w-[38%] min-[1024px]:max-w-[640px] min-[1024px]:min-w-[320px] min-[1024px]:justify-end min-[1024px]:pl-6 min-[1024px]:pr-8 min-[1024px]:pt-0 min-[1024px]:text-left min-[1280px]:pl-8 min-[1280px]:pr-10 min-[1440px]:pl-10";
 
   const ctaBox = short
     ? "mt-7 mr-auto"
-    : "mt-6 mx-auto min-[1024px]:mt-9 min-[1024px]:ml-0 min-[1024px]:mr-auto";
+    : "mt-6 mx-auto min-[1024px]:mt-9 min-[1024px]:ml-0 min-[1024px]:mr-auto min-[1024px]:pl-0";
 
   /**
    * cheta, in the corner UNDER the copy: glued to the bottom-left of the page

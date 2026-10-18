@@ -41,7 +41,7 @@ const GATE_CLEAR_FROM = 0.9;
  *  hero's own 45%. A share of the VIEWPORT (not of the bottle's box) keeps the
  *  drop identical on every tier, and it rides the dive — while the stone still
  *  covers the screen — so the move itself is never seen. */
-const BOTTLE_SCENE_SINK = 0.12;
+const BOTTLE_SCENE_SINK = 0.16;
 /** Share of a scene window over which its root is faded in. It carries only
  *  the scene's own visibility: every element inside it is either off-screen
  *  or hidden by its own beat, so the step can never be seen. */

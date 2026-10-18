@@ -39,7 +39,23 @@ export default async function HomePage({ params }: HomePageProps) {
       <div className="contents">
         <AboutSection />
       </div>
-      <GallerySection />
+      {/*
+        SAME `display:contents` shell, SAME reason — but for the DELETE path.
+        ScrollTrigger wraps the pinned `#gallery` in a pin-spacer the moment
+        the trigger is created, so the section is no longer a direct child of
+        `<body>`. On a locale switch React deletes the old page subtree and
+        calls removeChild on each branch's recorded parent for its TOP host
+        node. Without the shell that node is `#gallery` itself — now sitting
+        inside the pin-spacer — so removeChild throws NotFoundError, the
+        commit dies mid-way, and the page is left torn (the
+        "switching languages breaks the site" bug). The shell is never moved,
+        so React removes IT (still a body child) and the chapter leaves with
+        it. `contents` keeps the flex layout byte-for-byte identical — the
+        About shell above proves this pattern survives the pin.
+      */}
+      <div className="contents">
+        <GallerySection />
+      </div>
       <SiteFooter />
     </>
   );
