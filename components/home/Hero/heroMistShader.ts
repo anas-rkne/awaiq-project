@@ -1,18 +1,13 @@
 import { heroSceneConfig } from "@/config/site";
 
 /**
- * The ONE procedural mist — the same domain-warped FBM bank the section→section
- * transition uses, exposed as raw fragment sources so it can be drawn BOTH as a
- * DOM canvas (the transition bank, `HeroMist`) and as a fullscreen scene layer
- * inside the hands WebGL scene (a RESTING background). It runs on `gl_FragCoord`,
- * so the identical source renders identically in either host.
+ * The ONE procedural mist — a domain-warped FBM bank exposed as a raw fragment
+ * source so it can be drawn as a fullscreen scene layer inside the hands WebGL
+ * scene (a RESTING background). It runs on `gl_FragCoord`, so the identical
+ * source would render identically in any host.
  *
- * Two entry points share one noise field + palette:
- * - `heroMistTransitionFragment()` — the section→section bank: intensity is a
- *   bell DERIVED from `uProgress` (peak at the swap), so it only exists while a
- *   transition is underway.
- * - `heroMistBackgroundFragment()` — a constant, slowly-drifting bank for a
- *   resting background, driven by `uIntensity` (no progress).
+ * `heroMistBackgroundFragment()` — a constant, slowly-drifting bank for a
+ * resting background, driven by `uIntensity`.
  */
 
 function hexToUnit(hex: string): string {
@@ -74,45 +69,6 @@ float warp(vec2 p) {
   return fbm(p + 3.4 * q);
 }
 `;
-
-/** The section→section transition bank (bell intensity from `uProgress`). */
-export function heroMistTransitionFragment(): string {
-  return `
-precision highp float;
-
-uniform vec2 uResolution;
-uniform float uTime;
-uniform float uProgress;
-
-${mistConstants()}
-${MIST_NOISE}
-void main() {
-  float p = clamp(uProgress, 0.0, 1.0);
-  float intensity = smoothstep(0.0, 0.32, p) * (1.0 - smoothstep(0.58, 1.0, p));
-  if (intensity < 0.002) return;
-
-  vec2 uv = gl_FragCoord.xy / uResolution;
-  float aspect = uResolution.x / uResolution.y;
-  vec2 q = (uv - 0.5) * vec2(aspect, 1.0);
-
-  // The bank rolls upward with the swap progress.
-  vec2 fp = q * SCALE + vec2(uTime * 0.01, -p * ROLL + uTime * 0.006);
-  float n = warp(fp);
-  float n2 = warp(fp * 1.8 + 17.0);
-  float density = mix(n, n2, 0.4);
-
-  float tex = smoothstep(COVER, COVER + SOFT, density);
-  float alpha = (FILL + (1.0 - FILL) * tex) * intensity * MAX_OP;
-
-  // Cream billows, gold on the lit crests, navy in the depths.
-  float crest = smoothstep(0.65, 0.95, density);
-  vec3 col = mix(C_SHADOW, C_BODY, smoothstep(0.25, 0.8, density));
-  col = mix(col, C_SHEEN, crest * 0.22);
-
-  gl_FragColor = vec4(col, alpha);
-}
-`;
-}
 
 /** A constant, slowly-drifting bank for a RESTING background (`uIntensity`). */
 export function heroMistBackgroundFragment(): string {

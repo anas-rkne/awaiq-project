@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "@/i18n/navigation";
+import { heroConfig } from "@/config/site";
 import { aboutConfig } from "@/config/about";
 import decorLeftArt from "@/public/left.png";
 import decorRightArt from "@/public/right.png";
@@ -44,6 +45,10 @@ const DECOR_CLIP = 65;
  * landscape `9/16 w` video ratio) and a computed vertical offset that parks the
  * conveyor band at a comfortable height — the conveyor itself, the motion and
  * the copy/cross-fade logic are identical to desktop.
+ *
+ * The stage's backdrop is the HERO's wall — `moroco_hero_pattern` at
+ * `opacity-[0.04]` — so the chapter continues the hero instead of opening on a
+ * bare navy screen (see the backdrop layer in the markup).
  */
 export function AboutSection() {
   const t = useTranslations("About");
@@ -665,6 +670,19 @@ export function AboutSection() {
       className="relative h-[100dvh] w-full overflow-hidden"
       aria-labelledby="home-about-title"
     >
+      {/* The chapter's own wall: the SAME `moroco_hero_pattern` the hero stage
+          stands on — and the SAME `opacity-[0.04]` — stretched across the whole
+          pinned stage, so the chapter reads as the hero's continuation instead
+          of a bare navy screen. It is the first child and stays at `z-0`: every
+          layer above (flourishes `z-[3]`, labels `z-[15]`, pillars `z-[50]`)
+          paints over it, exactly like the hero's backdrop. */}
+      <img
+        src={heroConfig.pattern}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover object-center opacity-[0.04]"
+      />
+
       {/* Corner flourishes: left slides in from the left edge, right from the right. */}
       <Image
         ref={decorLeftRef}

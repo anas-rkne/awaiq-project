@@ -3,7 +3,7 @@
 import { useMemo, useSyncExternalStore, type ReactNode } from "react";
 import { getProduct, getVariant, type ProductId } from "@/config/store";
 
-export interface CartLine {
+interface CartLine {
   productId: ProductId;
   variantId: string;
   qty: number;
@@ -188,5 +188,3 @@ export function useCart(): CartApi {
 export function CartProvider({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
-
-export const CART_MAX_QTY = MAX_QTY;

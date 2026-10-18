@@ -1,17 +1,55 @@
 import { heroSceneConfig } from "@/config/site";
 
 /**
- * The ONE procedural clouds for the section backgrounds — raw WebGL fragment
- * shader: FBM + domain-warped value noise in two blobby layers positioned
- * where the old cloud images sat, colored from the palette and alpha-
- * composited over the navy sky. It runs on `gl_FragCoord`, so the same source
- * renders identically as a DOM canvas (hero backdrop, fixed global layer) or
- * as a fullscreen scene layer inside the hands WebGL scene.
+ * The procedural clouds — raw WebGL fragment source for the page-wide sky:
  *
- * Layer CENTERS are runtime uniforms (desktop / mobile) so a breakpoint switch
- * only uploads two vec2s — no recompile, no flash. The mist (`HeroMist`) is a
- * separate shader reserved for section→section transitions.
+ * - `heroCloudsFragment` — the BASE sky (the atmosphere drawn by
+ *   `GlobalSkyLayer`): FBM + domain-warped blobs, soft and airy, colored from
+ *   `clouds.colors`. Centers are uniforms (desktop / mobile) so a breakpoint
+ *   switch only uploads two vec2s — no recompile, no flash.
+ *
+ * It runs on `gl_FragCoord`, so the same source renders identically as a DOM
+ * canvas or as a fullscreen scene layer inside a WebGL scene. The mist
+ * (`heroSceneConfig.mist`) is a separate shader reserved for the hands
+ * finale's resting bank.
  */
+
+/** Shared GLSL: value noise → FBM → domain warp. One text, two skies. */
+const GLSL_COMMON = `
+float hash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(
+    mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+    mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+    u.y
+  );
+}
+
+float fbm(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  mat2 rot = mat2(0.8, 0.6, -0.6, 0.8);
+  for (int i = 0; i < 5; i++) {
+    v += a * noise(p);
+    p = rot * p * 2.0;
+    a *= 0.5;
+  }
+  return v;
+}
+
+// Domain warp — pillowy, organic edges. This is what reads as "cloud",
+// not etching the noise lattice.
+float warp(vec2 p) {
+  vec2 q = vec2(fbm(p), fbm(p + vec2(7.3, 2.1)));
+  return fbm(p + 3.4 * q);
+}
+`;
 
 export const heroCloudsVertex = `
   attribute vec2 aPosition;
@@ -47,41 +85,7 @@ const float COVER_B = ${c.layerB.coverage.toFixed(3)};
 const vec3 COLOR_BODY = vec3(0.964, 0.902, 0.839);   // #f6e6d6
 const vec3 COLOR_SHEEN = vec3(0.804, 0.620, 0.380);  // #cd9e61
 const vec3 COLOR_SHADOW = vec3(0.184, 0.306, 0.471); // #2f4e78
-
-float hash(vec2 p) {
-  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
-}
-
-float noise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  vec2 u = f * f * (3.0 - 2.0 * f);
-  return mix(
-    mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
-    mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
-    u.y
-  );
-}
-
-float fbm(vec2 p) {
-  float v = 0.0;
-  float a = 0.5;
-  mat2 rot = mat2(0.8, 0.6, -0.6, 0.8);
-  for (int i = 0; i < 5; i++) {
-    v += a * noise(p);
-    p = rot * p * 2.0;
-    a *= 0.5;
-  }
-  return v;
-}
-
-// Domain warp — pillowy, organic edges. This is what reads as "cloud",
-// not etching the noise lattice.
-float warp(vec2 p) {
-  vec2 q = vec2(fbm(p), fbm(p + vec2(7.3, 2.1)));
-  return fbm(p + 3.4 * q);
-}
-
+${GLSL_COMMON}
 float layer(vec2 p, float scale, float seed) {
   vec2 q = p * scale + vec2(seed, seed * 0.7);
   q.x += uTime * 0.02;

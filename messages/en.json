@@ -31,15 +31,23 @@
       }
     },
     "insightsItems": {
-      "egypt": { "title": "From Lotus to Bottle" },
-      "babylon": { "title": "The Art of Babylonian Beauty" },
-      "greece": { "title": "The Wisdom of Greek Perfume" },
-      "china": { "title": "Across the Silk Road" }
+      "egypt": {
+        "title": "From Lotus to Bottle"
+      },
+      "babylon": {
+        "title": "The Art of Babylonian Beauty"
+      },
+      "greece": {
+        "title": "The Wisdom of Greek Perfume"
+      },
+      "china": {
+        "title": "Across the Silk Road"
+      }
     }
   },
   "Hero": {
-    "headline": "What Remains of Every Civilization",
-    "cta": "Begin the Journey"
+    "headline": "Where Civilizations Are Told in Scent",
+    "cta": "Discover the Collection"
   },
   "Gallery": {
     "eyebrow": "The Gallery",
@@ -47,80 +55,26 @@
     "subheading": "Four civilizations, kept in a bottle.",
     "ctaLabel": "Discover the Collection",
     "items": {
-      "egypt": { "name": "Egypt", "tag": "Where the scent was born" },
-      "babylon": { "name": "Babylon", "tag": "Where the first rose opened" },
-      "greece": { "name": "Greece", "tag": "Where scent became wisdom" },
-      "china": { "name": "China", "tag": "Where scent touched the sky" }
-    }
-  },
-  "BrandStory": {
-    "headline": "The Beginning. Where the Perfume Was Born",
-    "body": "In ancient Egypt, perfume was not a luxury.\nIt was an offering to the gods, a memory for kings, and one of the secrets of immortality.\nFrom the blue lotus, myrrh, and frankincense,\nthe Egyptians drew the first scent ever told.\nAnd now, it rests in your hands.",
-    "cta": "Begin the Journey"
-  },
-  "BabylonStory": {
-    "headline": "Where the First Rose Bloomed",
-    "body": "After humanity learned to preserve scent,\nBabylon came to teach them how to beautify it.\nIn the Hanging Gardens, where the sky meets the earth,\nthe first rose was plucked at dawn,\nand the golden threads of saffron were dried under the Babylonian sun.\nHere, perfume was not a luxury… it was art.",
-    "cta": "Discover the Art"
-  },
-  "GreeceStory": {
-    "headline": "Where Perfume Became Wisdom",
-    "body": "From Babylon to Greece,\nscent turned into philosophy.\nIn the white temples beneath the Aegean sky,\nflowers were consecrated as gifts to the gods,\nand the Greeks composed the first fragrance that told a story.\nHere, perfume was not perfume… it was an idea.",
-    "cta": "Continue the Tale"
-  },
-  "ChinaStory": {
-    "headline": "Where Perfume Touched the Sky",
-    "body": "And the scent crossed the Silk Road,\ncarrying the secrets of the East.\nIn the houses of tea and incense,\nrose mingled with musk and oud,\nand China preserved the purest breaths the world had known.\nHere, the journey was complete… and kept forever.",
-    "cta": "Claim the Essence"
-  },
-  "CollectionSection": {
-    "eyebrow": "The Collection",
-    "title": "The Aweeq Collection",
-    "subtitle": "Four civilizations, in a single bottle",
-    "cta": "Discover the Collection",
-    "view": "View details",
-    "products": {
-      "egypt": { "name": "Egypt", "tag": "Where the scent was born" },
-      "babylon": { "name": "Babylon", "tag": "Where the first rose opened" },
-      "greece": { "name": "Greece", "tag": "Where scent became wisdom" },
-      "china": { "name": "China", "tag": "Where scent touched the sky" }
-    }
-  },
-  "CraftSection": {
-    "title": "The Craft",
-    "lead": "By the hands of perfumers with over 30 years of craft.",
-    "cta": "Discover the Collection",
-    "closing": "Every batch carries its own number. Yours.",
-    "stages": {
-      "extraction": {
-        "title": "Extraction",
-        "subtitle": "Extraction",
-        "description": "We pick the ingredients at dawn, the moment their scent peaks. Blue lotus, myrrh, frankincense — all gathered by hand."
+      "egypt": {
+        "name": "Egypt",
+        "tag": "Where the scent was born"
       },
-      "distillation": {
-        "title": "Distillation",
-        "subtitle": "Distillation",
-        "description": "48 hours of slow distillation in copper pipes. We don't rush. A good perfume needs time."
+      "babylon": {
+        "name": "Babylon",
+        "tag": "Where the first rose opened"
       },
-      "sealing": {
-        "title": "Sealing",
-        "subtitle": "Sealing",
-        "description": "The bottle is sealed in wax, numbered by hand, and signed by the perfumer."
+      "greece": {
+        "name": "Greece",
+        "tag": "Where scent became wisdom"
+      },
+      "china": {
+        "name": "China",
+        "tag": "Where scent touched the sky"
       }
-    },
-    "stats": {
-      "hours": "hours of distillation",
-      "purification": "stages of purification",
-      "natural": "natural ingredients",
-      "experience": "years of experience"
     }
   },
   "HandsFinale": {
     "line": "When the past met the present... 3WEEQ was born"
-  },
-  "Ripple": {
-    "line": "A world rendered in scent",
-    "cta": "Explore the collection"
   },
   "Nav": {
     "menu": "Menu",
@@ -148,9 +102,9 @@
     "emailLabel": "E-mail address",
     "emailValue": "hello@3weeq.com",
     "phoneLabel": "Phone number",
-    "phoneValue": "+966 55 000 0000",
+    "phoneValue": "+971 55 000 0000",
     "addressLabel": "Address",
-    "addressValue": "Riyadh, Saudi Arabia",
+    "addressValue": "United Arab Emirates",
     "instagram": "Instagram",
     "linkedin": "LinkedIn"
   },
@@ -263,5 +217,51 @@
       "note": "No payment is taken on the site. We'll confirm your order and arrange payment and delivery.",
       "orderRef": "Order ref"
     }
+  },
+  "NavDemo": {
+    "title": "Navigation Motion Lab",
+    "subtitle": "Three navigation patterns on one Motion install. Each block is wrapped in its own LayoutGroup, so every shared element keeps its own layoutId namespace.",
+    "tabs": [
+      "Home",
+      "Collection",
+      "Craft",
+      "Story"
+    ],
+    "elastic": {
+      "name": "Elastic Tabs",
+      "hint": "One pill, one layoutId. Motion measures the new box, inverts it onto the old one and plays it out — left and top are never animated."
+    },
+    "dock": {
+      "name": "Floating Dock",
+      "hint": "The pointer lives in a MotionValue, so hovering never re-renders. Each item springs its own size from its measured distance to the cursor."
+    },
+    "sidebar": {
+      "name": "Magnetic Sidebar",
+      "hint": "Rows are pulled toward the cursor by an under-damped spring, while a single layoutId marker FLIPs between the active rows."
+    }
+  },
+  "EgyptReveal": {
+    "kicker": "3WEEQ and the civilization of Egypt",
+    "headline": "From the Nile, 3WEEQ Was Born",
+    "body": "In ancient Egypt, perfume was not ornament —\nit was the language a civilization wrote its secrets in.\nFrom Nile clay and temple light we learned\nthat scent is a memory which never ages.\nOut of that inheritance we made 3WEEQ:\none vessel carrying an entire civilization.",
+    "cta": "Discover the Scent of Egypt"
+  },
+  "BabylonReveal": {
+    "kicker": "3WEEQ and the civilization of Babylon",
+    "headline": "Between Two Rivers, Scent Became Art",
+    "body": "Babylon wrote its laws on clay —\nand its beauty in smoke and oil.\nIn the hanging gardens the first rose opened,\nand saffron was weighed like gold.\nFrom that alchemy of earth and fire,\n3WEEQ carries the first perfume the world knew.",
+    "cta": "Discover the Scent of Babylon"
+  },
+  "GreeceReveal": {
+    "kicker": "3WEEQ and the civilization of Greece",
+    "headline": "Where Scent Learned to Think",
+    "body": "In Greece, perfume left the temple for the mind —\nolive groves, laurel and cypress distilled into thought.\nAthletes were anointed before the games,\nand philosophers wore memory on their skin.\nFrom that pursuit of beauty and meaning,\n3WEEQ carries the wisdom of scent.",
+    "cta": "Discover the Scent of Greece"
+  },
+  "ChinaReveal": {
+    "kicker": "3WEEQ and the civilization of China",
+    "headline": "Along the Silk Road, Rises a Fragrance",
+    "body": "China taught perfume the patience of gardens:\ntea sleeping in jars, sandalwood aging in the dark,\njasmine opening only for the night.\nIncense marked the hours of emperors,\nand a scent could be inherited like a name.\n3WEEQ carries that measured breath.",
+    "cta": "Discover the Scent of China"
   }
 }

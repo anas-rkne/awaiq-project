@@ -52,11 +52,6 @@ export const storeConfig = {
   ] as StoreProduct[],
 } as const;
 
-export type StoreConfig = typeof storeConfig;
-
-/** All product ids, in strip order. */
-export const productIds = storeConfig.products.map((p) => p.id);
-
 export function getProduct(id: string): StoreProduct | undefined {
   return storeConfig.products.find((p) => p.id === id);
 }

@@ -8,82 +8,32 @@
 /* ==========================================================================
    Self-hosted brand fonts (local WOFF2 in /public/fonts — zero external
    requests to fonts.googleapis.com / fonts.gstatic.com).
-   Primary (Reem Kufi): headlines, section titles, brand wordmark.
-   Secondary (Tajawal): body copy, subheads, buttons.
-   unicode-range picks the Arabic or Latin file per glyph so only the
-   needed subset is downloaded.
+   Arabic (Lyon Arabic Display): every Arabic glyph on the site.
+   Latin  (Ador Hairline):       every Latin glyph, digits and punctuation.
+   Each family ships ONE weight in this project, declared over the whole
+   `400 700` range so font-medium / font-normal requests — and any heading
+   default — never trigger synthesised faux-bold.
+   unicode-range is what keeps the two families from ever competing: each
+   glyph resolves to its script's file (Arabic → Lyon, Latin → Ador) in BOTH
+   theme tokens below, no matter which one a component uses.
    ========================================================================== */
 
 @font-face {
-  font-family: "Reem Kufi";
+  font-family: "Lyon Arabic Display";
   font-style: normal;
   font-display: swap;
-  font-weight: 500;
-  src: url(/fonts/reem-kufi-arabic-500.woff2) format("woff2");
+  font-weight: 400 700;
+  src: url(/fonts/lyon-arabic-display-regular.woff2) format("woff2");
   unicode-range: U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1;
 }
 
 @font-face {
-  font-family: "Reem Kufi";
+  font-family: "Ador Hairline";
   font-style: normal;
   font-display: swap;
-  font-weight: 500;
-  src: url(/fonts/reem-kufi-latin-500.woff2) format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-
-@font-face {
-  font-family: "Reem Kufi";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url(/fonts/reem-kufi-arabic-700.woff2) format("woff2");
-  unicode-range: U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1;
-}
-
-@font-face {
-  font-family: "Reem Kufi";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 700;
-  src: url(/fonts/reem-kufi-latin-700.woff2) format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-
-@font-face {
-  font-family: "Tajawal";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url(/fonts/tajawal-arabic-400.woff2) format("woff2");
-  unicode-range: U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1;
-}
-
-@font-face {
-  font-family: "Tajawal";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 400;
-  src: url(/fonts/tajawal-latin-400.woff2) format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
-}
-
-@font-face {
-  font-family: "Tajawal";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url(/fonts/tajawal-arabic-500.woff2) format("woff2");
-  unicode-range: U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC,U+102E0-102FB,U+10E60-10E7E,U+10EC2-10EC4,U+10EFC-10EFF,U+1EE00-1EE03,U+1EE05-1EE1F,U+1EE21-1EE22,U+1EE24,U+1EE27,U+1EE29-1EE32,U+1EE34-1EE37,U+1EE39,U+1EE3B,U+1EE42,U+1EE47,U+1EE49,U+1EE4B,U+1EE4D-1EE4F,U+1EE51-1EE52,U+1EE54,U+1EE57,U+1EE59,U+1EE5B,U+1EE5D,U+1EE5F,U+1EE61-1EE62,U+1EE64,U+1EE67-1EE6A,U+1EE6C-1EE72,U+1EE74-1EE77,U+1EE79-1EE7C,U+1EE7E,U+1EE80-1EE89,U+1EE8B-1EE9B,U+1EEA1-1EEA3,U+1EEA5-1EEA9,U+1EEAB-1EEBB,U+1EEF0-1EEF1;
-}
-
-@font-face {
-  font-family: "Tajawal";
-  font-style: normal;
-  font-display: swap;
-  font-weight: 500;
-  src: url(/fonts/tajawal-latin-500.woff2) format("woff2");
-  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+  font-weight: 400 700;
+  src: url(/fonts/ador-hairline-bold.woff2) format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2190-2199,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
 @theme inline {
@@ -94,27 +44,20 @@
      same 64rem line as `lg` — every `md:`/`lg:` utility now flips together. */
   --breakpoint-md: 64rem;
 
-  --font-primary: "Reem Kufi", "Segoe UI", Tahoma, Arial, sans-serif;
-  --font-secondary: "Tajawal", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-primary: "Lyon Arabic Display", "Ador Hairline", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-secondary: "Ador Hairline", "Lyon Arabic Display", "Segoe UI", Tahoma, Arial, sans-serif;
   /* The reference (`momentolegal.com`) drives its About/expertise chapter with
-     the Latin display face "Forum". Our brand display face is Reem Kufi, so the
-     `font-forum` utility is mapped to it — the ported markup keeps its class
-     names while the type stays on-brand (and covers Arabic, which Forum cannot). */
-  --font-forum: "Reem Kufi", "Segoe UI", Tahoma, Arial, sans-serif;
+     the Latin display face "Forum". Our brand pairing is the Lyon (Arabic) /
+     Ador Hairline (Latin) duet, so the `font-forum` utility is mapped to it —
+     the ported markup keeps its class names while the type stays on-brand
+     (and covers Arabic, which Forum cannot). */
+  --font-forum: "Lyon Arabic Display", "Ador Hairline", "Segoe UI", Tahoma, Arial, sans-serif;
 
   --color-gold: #cd9e61;
   --color-beige: #f6e6d6;
   --color-navy: #2f4e78;
   --color-navy-deep: #27466b;
   --color-navy-ink: #1a3350;
-
-  /* Heading scale — one relationship across every section:
-     display (hero-like section title) > h2 (section title) > h3 (card/stage).
-     Keeps the Craft title as the dominant display while every other heading
-     derives from the same ladder. */
-  --fs-display: clamp(2.6rem, 6vw, 5rem);
-  --fs-h2: clamp(2rem, 3.5vw, 3rem);
-  --fs-h3: clamp(1.75rem, 3.4vw, 2.75rem);
 }
 
 html,
@@ -141,24 +84,6 @@ body {
     transform: scaleX(1);
     opacity: 1;
   }
-}
-
-/* Hero bottle float — very slow, subtle levitation. Applied to the INNER
-   wrapper only (the outer one holds the centering translate, so the keyframe
-   transform must never touch it). Disabled by the global reduced-motion rule
-   above. */
-@keyframes hero-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-}
-
-.animate-hero-float {
-  animation: hero-float 6s ease-in-out infinite;
 }
 
 /* Store — cart badge pop (re-triggered by a `key` on the count) and cart line
@@ -209,49 +134,6 @@ body {
 :focus-visible {
   outline: 1px solid rgba(246, 230, 214, 0.7);
   outline-offset: 3px;
-}
-
-/* Collection cards become keyboard-reachable groups (tabIndex/role set in
-   CollectionSection.tsx). A gold ring keeps the focus cue on-brand and
-   clearly readable over the dark card art. */
-[data-card]:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 4px;
-}
-
-/* About (mobile) — reveal-on-scroll. Elements start hidden and lift in when
-   the IntersectionObserver in `AboutMobile` flags them; the shared
-   reduced-motion block above neutralises the transition automatically, and
-   the explicit rule below guarantees the final state on reduced-motion
-   devices even before the observer runs. */
-[data-about-reveal] {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
-    transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-}
-[data-about-reveal][data-about-reveal-shown="true"] {
-  opacity: 1;
-  transform: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  [data-about-reveal] {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* ==========================================================================
-   Craft — stage photograph colour grade (craft-1/2/3.jpg).
-   A light CSS veil only; the source images are never altered or resized.
-   On hover the veil lifts a touch so the photo "wakes up" under the cursor.
-   The hover transform is gated to real pointers so touch devices never get a
-   stuck :hover state, and the shared reduced-motion block above neutralises
-   the transition automatically.
-   ========================================================================== */
-.craft-image {
-  filter: sepia(0.2) saturate(0.9) contrast(1.1) brightness(0.95);
 }
 
 /* ==========================================================================

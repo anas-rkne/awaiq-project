@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { siteConfig } from "@/config/site";
-import { useMediaQuery } from "@/hooks/useHeroResponsive";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 /** Per-tab flag: show the intro loader once, never again on reload. */
 const SKIP_KEY = "3weeq:loader-seen";

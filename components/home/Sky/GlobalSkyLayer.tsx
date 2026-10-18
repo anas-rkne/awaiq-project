@@ -8,8 +8,8 @@ import { heroCloudsVertex, heroCloudsFragment } from "@/components/home/Hero/her
  * The fixed page-wide atmosphere: the SAME procedural clouds over the page's
  * navy base, glued to the viewport behind every section (z-index: -10). The
  * former `sky.webp` image layer was removed site-wide; the sky is now
- * generated entirely (clouds). The mist is reserved for section→section
- * transitions only.
+ * generated entirely (clouds). The mist is reserved for the hands finale's
+ * resting bank.
  *
  * Design contract (approved): the site reads as ONE continuous layer. The hero
  * keeps its own cinematic giant; this layer drives the continuation — it stays
@@ -17,7 +17,7 @@ import { heroCloudsVertex, heroCloudsFragment } from "@/components/home/Hero/her
  * visible wherever a section is transparent, so every future product/service
  * section automatically inherits the brand sky.
  *
- * Budget mirrors HeroClouds: DPR-capped, IntersectionObserver/visibility
+ * Budget: DPR-capped, IntersectionObserver/visibility
  * aware, static under `prefers-reduced-motion`. Rendering only starts once
  * the hero is scrolled past (scroll gate) so it costs nothing on the epic.
  */

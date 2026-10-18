@@ -1,16 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Link } from "@/i18n/navigation";
 import { galleryConfig } from "@/config/gallery";
-import { useMediaQuery } from "@/hooks/useHeroResponsive";
-import { CurtainVeil } from "./CurtainVeil";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import type { GalleryCurtainHandle } from "./curtainScene";
 import { GalleryStrip, type GalleryStripItem } from "./GalleryStrip";
 
 gsap.registerPlugin(ScrollTrigger);
+
+/** Three.js stays out of the initial page bundle (the `HeroBottle` pattern). */
+const CurtainReveal = dynamic(
+  () => import("./CurtainReveal").then((mod) => mod.CurtainReveal),
+  { ssr: false },
+);
 
 const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
 
@@ -18,10 +25,12 @@ const clamp01 = (value: number) => Math.max(0, Math.min(1, value));
  * Gallery chapter — the curtained bottle gallery between About and the footer.
  *
  * ONE pinned `100dvh` section driven by a single `scrub` trigger. As the scroll
- * advances: the two velvet panels part from the centre (transform-only, see
- * `CurtainVeil`), a gold seam light swells and fades, and the bottle belt behind
- * them slides past while the bottle nearest the centre scales up and its caption
- * fades in. Scrolling back up runs the whole thing in reverse.
+ * advances: the two velvet curtains part from the centre (WebGL, see
+ * `CurtainReveal` / `curtainScene` — wind-rippled while they still hang),
+ * a gold seam light swells and fades, a dark veil over the belt lifts with the
+ * opening, and the belt behind slides past while the bottle nearest the centre
+ * scales up and its caption fades in. Scrolling back up runs the whole thing in
+ * reverse.
  *
  * Geometry is viewport-relative, so nothing is measured per frame: the cards are
  * sized in vw, the belt is translated in vw, and a resize re-reads itself. On
@@ -47,9 +56,12 @@ export function GallerySection() {
   );
 
   const sectionRef = useRef<HTMLElement>(null);
-  const leftPanelRef = useRef<HTMLDivElement>(null);
-  const rightPanelRef = useRef<HTMLDivElement>(null);
+  /** The WebGL curtain's imperative API (created by `CurtainReveal`). */
+  const curtainRef = useRef<GalleryCurtainHandle | null>(null);
+  /** Kept fresh for the curtain scene's late init — it syncs on ready. */
+  const openRef = useRef(0);
   const seamRef = useRef<HTMLDivElement>(null);
+  const revealRef = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLDivElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
@@ -79,13 +91,16 @@ export function GallerySection() {
       const etEnd = 50 - (spacing * (N - 1) + first);
 
       const drive = (progress: number) => {
-        // 1. Curtain parts from the centre (transform only).
+        // 1. Curtain parts from the centre — the WebGL velvet reads the eased
+        //    value through its handle; the dark veil over the belt lifts with
+        //    it, so the reveal brightens as the gap widens.
         const openRaw = clamp01(
           (progress - m.open.start) / (m.open.end - m.open.start),
         );
         const open = openRaw * openRaw * (3 - 2 * openRaw);
-        gsap.set(leftPanelRef.current, { xPercent: -100 * open });
-        gsap.set(rightPanelRef.current, { xPercent: 100 * open });
+        openRef.current = open;
+        curtainRef.current?.setOpen(open);
+        gsap.set(revealRef.current, { opacity: 0.5 * (1 - open) });
 
         // 2. Gold seam light — a bell that peaks as the gap widens.
         const seamT = clamp01(
@@ -273,11 +288,26 @@ export function GallerySection() {
         }}
       />
 
-      {/* The velvet curtain (kept mounted under reduced motion). */}
-      <CurtainVeil
-        leftRef={leftPanelRef}
-        rightRef={rightPanelRef}
+      {/* Reveal veil — while the velvet still hangs, the belt sits under a
+          flat navy dim that lifts with the opening (the chapter's own scrub
+          beat), so the gallery BRIGHTENS into view instead of just appearing. */}
+      <div
+        ref={revealRef}
+        aria-hidden="true"
+        className={
+          reduced
+            ? "hidden"
+            : "pointer-events-none absolute inset-0 z-[2] opacity-0"
+        }
+        style={{ backgroundColor: "#0a121e" }}
+      />
+
+      {/* The velvet curtain (kept mounted under reduced motion; WebGL via
+          `next/dynamic`, see `CurtainReveal`). */}
+      <CurtainReveal
+        curtainRef={curtainRef}
         seamRef={seamRef}
+        getOpen={() => openRef.current}
         hidden={reduced}
       />
     </section>

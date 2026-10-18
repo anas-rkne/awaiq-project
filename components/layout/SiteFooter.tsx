@@ -18,6 +18,16 @@ const LINK_EN = "tracking-[36%] uppercase";
  * Site footer (home only) — ported from `momentolegal.com`'s `<footer>`:
  * a link column, a center "back to top" + product scene band, and a contact
  * column. Reveals on scroll; anchors and back-to-top ride Lenis when present.
+ *
+ * The footer is `relative` so it can carry its own backdrop: `footer_bg` (the
+ * Morocco artwork, the hero's own image) parked at the BOTTOM-LEFT at the
+ * hero wall's `opacity-[0.04]`, behind both columns (`z-0` under their `z-30`).
+ *
+ * The scene band is scaled to the footer, not to the viewport: it used to be a
+ * `w-screen scale-[2]` (≈200vw wide and 84svh tall on a phone) which spilled
+ * out of the footer on every side — the band is now `w-full` with a
+ * half-height bottle (`42svh` phone, `36svh` desktop), so the footer's
+ * silhouette stays inside its own box.
  */
 export function SiteFooter() {
   const locale = useLocale();
@@ -71,8 +81,21 @@ export function SiteFooter() {
     <footer
       ref={ref}
       dir={isAr ? "rtl" : "ltr"}
-      className="w-full overflow-x-clip overflow-y-clip lg:overflow-x-visible lg:overflow-y-visible"
+      className="relative w-full overflow-x-clip overflow-y-clip lg:overflow-x-visible lg:overflow-y-visible"
     >
+      {/* The footer's own wall: the hero's Morocco artwork at the BOTTOM-LEFT,
+          held at the SAME `opacity-[0.04]` the hero's pattern wall uses, so the
+          footer closes the page on the brand's wallpaper. `z-0` keeps it under
+          both link columns (`z-30`). */}
+      <Image
+        src="/images/sections/footer_bg.jpg"
+        alt=""
+        aria-hidden="true"
+        width={848}
+        height={1264}
+        className="pointer-events-none absolute bottom-0 left-0 z-0 h-[70%] w-auto object-contain object-left-bottom opacity-[0.04] select-none"
+      />
+
       <div className="flex w-full flex-col items-center px-4 pb-[env(safe-area-inset-bottom)] lg:flex-row lg:items-start lg:px-[clamp(1.6rem,3.5vw,13rem)]">
         <div
           data-reveal
@@ -150,14 +173,14 @@ export function SiteFooter() {
                 <span>{t("backToTop")}</span>
               </button>
 
-              <div className="relative isolate w-screen origin-bottom scale-[2] transform-gpu lg:w-full lg:scale-[1.4]">
+              <div className="relative isolate w-full">
                 <Image
                   src="/art/hero/pixlr-bottle.webp"
                   alt=""
                   aria-hidden="true"
                   width={1152}
                   height={2048}
-                  className="relative mx-auto h-[42vh] w-auto object-contain lg:h-[52vh]"
+                  className="relative mx-auto h-[42svh] w-auto object-contain lg:h-[36svh]"
                 />
               </div>
             </div>

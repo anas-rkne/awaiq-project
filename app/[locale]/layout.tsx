@@ -3,7 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { fontPreloads } from "../fonts";
-import { siteConfig } from "@/config/site";
+import { siteConfig, heroConfig } from "@/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getSiteUrl } from "@/lib/site-url";
 import { routing, type AppLocale } from "@/i18n/routing";
@@ -107,6 +107,17 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <CartProvider>
             <SmoothScroll>
+              {/* The pattern wall: the SAME `moroco_hero_pattern` the hero
+                  stage carries, at the SAME `opacity-[0.04]`, as a fixed
+                  layer behind EVERY page (behind even the sky clouds), so
+                  the whole site stands on the hero's own wall. The one place
+                  it never shows is the 3D hands chapter: its compositor
+                  canvas is opaque and covers the viewport there. */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none fixed inset-0 -z-20 bg-cover bg-center opacity-[0.04]"
+                style={{ backgroundImage: `url(${heroConfig.pattern})` }}
+              />
               <GlobalSkyLayer />
               {children}
             </SmoothScroll>
